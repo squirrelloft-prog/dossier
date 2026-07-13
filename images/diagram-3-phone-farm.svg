@@ -1,0 +1,29 @@
+<svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Телефонная ферма: было и стало</title>
+<desc>До внедрения методологии операторы работали вручную с разрозненным оборудованием, после — по стандартной методологии с 90 устройствами, что дало 10-кратное ускорение</desc>
+<defs><marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#7E8299" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="260" fill="#13141A"/>
+
+<g>
+<rect x="40" y="40" width="270" height="120" rx="14" fill="#21232E" stroke="#3D4558" stroke-width="0.5"/>
+<text x="175" y="66" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="15" font-weight="700">Было</text>
+<text x="175" y="94" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">разрозненное оборудование</text>
+<text x="175" y="112" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">ручная работа операторов</text>
+<text x="175" y="130" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">нет единой методологии</text>
+</g>
+
+<line x1="310" y1="100" x2="370" y2="100" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+<g>
+<rect x="370" y="40" width="270" height="120" rx="14" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="505" y="66" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="15" font-weight="700">Стало</text>
+<text x="505" y="94" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">90 устройств, подобранных под задачу</text>
+<text x="505" y="112" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">единая методология операторов</text>
+<text x="505" y="130" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">кастомный софт под ферму</text>
+</g>
+
+<g>
+<rect x="220" y="195" width="240" height="46" rx="10" fill="#4A3410" stroke="#D4A030" stroke-width="0.5"/>
+<text x="340" y="218" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">10-кратное ускорение операторов</text>
+</g>
+</svg>

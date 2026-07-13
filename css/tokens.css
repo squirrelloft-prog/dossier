@@ -1,0 +1,40 @@
+:root {
+  --bg:           #13141A;
+  --bg-raised:    #1C1E27;
+  --bg-card:      #21232E;
+  --border:       #2E3044;
+  --border-light: #3A3E56;
+  --text:         #ffffff;
+  --text-dim:     #ebebeb;
+  --text-xs:      #b6b6b6;
+
+  --accent:       #E0196B;
+  --accent-dim:   rgba(224, 25, 107, 0.12);
+  --accent-glow:  rgba(224, 25, 107, 0.22);
+
+  --c-teal:        #14887D;
+  --c-teal-dim:    rgba(20, 136, 125, 0.13);
+  --c-coral:       #C24E62;
+  --c-coral-dim:   rgba(194, 78, 98, 0.13);
+  --c-purple:      #6B4BB2;
+  --c-purple-dim:  rgba(107, 75, 178, 0.13);
+  --c-purple-glow: rgba(107, 75, 178, 0.20);
+  --c-gray:        #3D4558;
+  --c-gray-dim:    rgba(61, 69, 88, 0.20);
+
+  --s-green:      #1A7A50;
+  --s-green-fg:   #38C870;
+  --s-red:        #A83030;
+  --s-red-fg:     #DC6060;
+  --s-amber:      #8A6414;
+  --s-amber-fg:   #D4A030;
+  --s-neutral:    #4A5268;
+  --s-neutral-fg: #8A92A8;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;
+
+  --t-fast: 120ms ease;
+  --t-base: 220ms ease;
+  --t-slow: 380ms ease;
+}

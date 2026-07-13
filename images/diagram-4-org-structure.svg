@@ -1,0 +1,38 @@
+<svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Оргструктура контент-фабрики</title>
+<desc>Техлид руководит тремя цехами: разработкой, операторами телефонной фермы и аналитикой, все данные сходятся в единую отчётность</desc>
+<defs><marker id="arrow4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#7E8299" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="260" fill="#13141A"/>
+
+<g>
+<rect x="250" y="30" width="180" height="56" rx="8" fill="#2B1A3D" stroke="#6B4BB2" stroke-width="0.5"/>
+<text x="340" y="50" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Техлид</text>
+<text x="340" y="70" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">архитектура и отчётность</text>
+</g>
+
+<line x1="340" y1="86" x2="340" y2="110" stroke="#3D4558" stroke-width="0.5"/>
+<line x1="130" y1="110" x2="550" y2="110" stroke="#3D4558" stroke-width="0.5"/>
+<line x1="130" y1="110" x2="130" y2="130" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow4)"/>
+<line x1="340" y1="110" x2="340" y2="130" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow4)"/>
+<line x1="550" y1="110" x2="550" y2="130" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+<g>
+<rect x="40" y="130" width="180" height="60" rx="8" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="130" y="150" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Цех разработки</text>
+<text x="130" y="170" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">3-5 человек, пайплайны</text>
+</g>
+
+<g>
+<rect x="250" y="130" width="180" height="60" rx="8" fill="#3D2418" stroke="#C24E62" stroke-width="0.5"/>
+<text x="340" y="150" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Операторы фермы</text>
+<text x="340" y="170" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">90 устройств, публикация</text>
+</g>
+
+<g>
+<rect x="460" y="130" width="180" height="60" rx="8" fill="#4A3410" stroke="#D4A030" stroke-width="0.5"/>
+<text x="550" y="150" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Аналитика</text>
+<text x="550" y="170" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">PostgreSQL, Superset</text>
+</g>
+
+<text x="340" y="225" text-anchor="middle" fill="#9CA3AF" font-family="Arial" font-size="12">Все данные сходятся в единую БД и Telegram-бота мониторинга инцидентов</text>
+</svg>

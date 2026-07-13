@@ -1,0 +1,45 @@
+<svg width="680" height="420" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Пайплайн сбора статистики контент-фабрики</title>
+<desc>90 аккаунтов на 7 площадках собираются через n8n и Apify, попадают в PostgreSQL и визуализируются в Apache Superset</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#7E8299" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="420" fill="#13141A"/>
+
+<g>
+<rect x="60" y="40" width="200" height="56" rx="8" fill="#21232E" stroke="#3D4558" stroke-width="0.5"/>
+<text x="160" y="60" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">90 аккаунтов</text>
+<text x="160" y="80" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">7 площадок</text>
+</g>
+
+<line x1="260" y1="68" x2="330" y2="68" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+<rect x="330" y="40" width="180" height="56" rx="8" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="420" y="60" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">n8n + Apify</text>
+<text x="420" y="80" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">ежедневный сбор</text>
+</g>
+
+<line x1="420" y1="96" x2="420" y2="150" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+<rect x="330" y="150" width="180" height="56" rx="8" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="420" y="170" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">PostgreSQL</text>
+<text x="420" y="190" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">единая БД</text>
+</g>
+
+<line x1="420" y1="206" x2="420" y2="260" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+<rect x="330" y="260" width="180" height="56" rx="8" fill="#2B1A3D" stroke="#6B4BB2" stroke-width="0.5"/>
+<text x="420" y="280" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Apache Superset</text>
+<text x="420" y="300" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">дашборды</text>
+</g>
+
+<g>
+<rect x="60" y="260" width="200" height="70" rx="8" fill="#3D2418" stroke="#C24E62" stroke-width="0.5"/>
+<text x="160" y="278" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">AI-конкурентная разведка</text>
+<text x="160" y="296" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">Gemini / Claude</text>
+<text x="160" y="312" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">извлечение сценариев</text>
+</g>
+
+<path d="M330 178 L280 178 L280 295 L260 295" fill="none" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

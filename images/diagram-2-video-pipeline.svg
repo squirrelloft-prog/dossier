@@ -1,0 +1,36 @@
+<svg width="680" height="200" viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Пайплайн уникализации видео</title>
+<desc>Исходное видео проходит через n8n-оркестрацию, обработку ffmpeg и сохраняется в S3 для мультиаккаунтной публикации</desc>
+<defs><marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#7E8299" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="200" fill="#13141A"/>
+
+<g>
+<rect x="40" y="72" width="140" height="56" rx="8" fill="#21232E" stroke="#3D4558" stroke-width="0.5"/>
+<text x="110" y="92" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">Исходник</text>
+<text x="110" y="112" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">одно видео</text>
+</g>
+
+<line x1="180" y1="100" x2="230" y2="100" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+<g>
+<rect x="230" y="72" width="140" height="56" rx="8" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="300" y="92" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">n8n</text>
+<text x="300" y="112" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">оркестрация партий</text>
+</g>
+
+<line x1="370" y1="100" x2="420" y2="100" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+<g>
+<rect x="420" y="72" width="140" height="56" rx="8" fill="#0E3B36" stroke="#14887D" stroke-width="0.5"/>
+<text x="490" y="92" text-anchor="middle" dominant-baseline="central" fill="#E4E5F0" font-family="Arial" font-size="14" font-weight="600">ffmpeg</text>
+<text x="490" y="112" text-anchor="middle" dominant-baseline="central" fill="#9CA3AF" font-family="Arial" font-size="12">уникализация копий</text>
+</g>
+
+<line x1="560" y1="100" x2="608" y2="100" stroke="#7E8299" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+<g>
+<rect x="608" y="72" width="32" height="56" rx="8" fill="#2B1A3D" stroke="#6B4BB2" stroke-width="0.5"/>
+</g>
+<text x="624" y="150" text-anchor="middle" fill="#9CA3AF" font-family="Arial" font-size="12">S3</text>
+<text x="624" y="40" text-anchor="middle" fill="#9CA3AF" font-family="Arial" font-size="12">90 аккаунтов</text>
+</svg>
