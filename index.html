@@ -747,18 +747,52 @@
     return el;
   }
 
+  // Keeps the panel pinned to the *actually visible* viewport on mobile.
+  // CSS `dvh` alone isn't reliable here — on real Android/Chrome the
+  // layout viewport doesn't always shrink when the keyboard opens, only
+  // window.visualViewport does. Without this, the header (and the close
+  // button) can end up scrolled out of view behind the keyboard.
+  function syncPanelToVisualViewport() {
+    if (!window.visualViewport || window.innerWidth > 640 || !opened) return;
+    var vv = window.visualViewport;
+    var margin = 16;
+    panel.style.top = (vv.offsetTop + margin) + 'px';
+    panel.style.height = (vv.height - margin) + 'px';
+  }
+
+  function resetPanelInlineSize() {
+    panel.style.top = '';
+    panel.style.height = '';
+  }
+
   function toggle() {
     opened = !opened;
     panel.classList.toggle('cw-open', opened);
     if (opened && messages.children.length === 0) {
       addMessage('Привет! Спроси меня про стек, опыт, формат работы – отвечу как есть.', 'bot');
     }
-    if (opened) input.focus();
+    // Auto-focus is a nice desktop touch, but on mobile it pops the
+    // on-screen keyboard the instant the panel opens, before the user
+    // even sees it — skip it on touch devices, they can tap the input
+    // themselves when ready.
+    if (opened && window.matchMedia('(pointer: fine)').matches) input.focus();
+
     // On mobile the panel goes full-screen — lock the page behind it
     // so there's no confusing double-scroll.
     if (window.innerWidth <= 640) {
       document.body.style.overflow = opened ? 'hidden' : '';
     }
+
+    if (opened) {
+      syncPanelToVisualViewport();
+    } else {
+      resetPanelInlineSize();
+    }
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', syncPanelToVisualViewport);
+    window.visualViewport.addEventListener('scroll', syncPanelToVisualViewport);
   }
 
   launcher.addEventListener('click', toggle);

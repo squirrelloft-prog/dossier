@@ -116,22 +116,23 @@
    (cramped, and the on-screen keyboard can cover the input) — go
    near-full-screen instead, like most mobile chat widgets.
 
-   Left with a top margin (not edge-to-edge) and sized in `dvh` rather
-   than `%`/`vh`: `dvh` tracks the *visible* viewport, so when the
-   on-screen keyboard opens and the visible area shrinks, the panel
-   shrinks with it instead of getting clipped — the header (and its
-   close button) stays on-screen instead of getting pushed up under
-   the keyboard. */
+   `top`/`height` here are a CSS-only fallback (16px margin, matching
+   the JS-driven sizing below) for browsers without window.visualViewport.
+   Everywhere that matters, js/index.html's syncPanelToVisualViewport()
+   overrides these as inline styles, pinned to the actual visible
+   viewport — plain `dvh` alone isn't reliable enough against real
+   on-screen keyboards (confirmed on real Android/Chrome: the header
+   ended up scrolled out of view under the keyboard). */
 @media (max-width: 640px) {
   #cw-panel {
-    top: 48px;
+    top: 16px;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: calc(100dvh - 48px);
+    max-height: calc(100dvh - 16px);
     border-radius: 16px 16px 0 0;
     border: none;
     border-top: 1px solid var(--cw-border);
