@@ -729,9 +729,11 @@
   // в <a> — остальной текст остаётся обычным текстом.
   function linkify(escapedText) {
     var urlPattern = /(https?:\/\/[^\s<]+)/g;
-    return escapedText.replace(urlPattern, function (url) {
-      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
-    });
+    return escapedText
+      .replace(urlPattern, function (url) {
+        return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+      })
+      .replace(/\n/g, '<br>'); // переносы строк из ответа модели → видимые абзацы в виджете
   }
 
   function addMessage(text, who) {
