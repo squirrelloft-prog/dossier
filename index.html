@@ -38,12 +38,15 @@
 <nav class="nav">
   <div class="nav__inner">
     <span class="nav__name">Анастасия Чернова</span>
-    <div class="nav__links">
+    <div class="nav__links" id="navLinks">
       <a href="#graph">Кейсы</a>
       <a href="#skills">Скиллы</a>
       <a href="#about">Обо мне</a>
       <a href="#contacts">Контакты</a>
     </div>
+    <button class="nav__burger" id="navBurger" aria-label="Меню" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -751,6 +754,11 @@
       addMessage('Привет! Спроси меня про стек, опыт, формат работы – отвечу как есть.', 'bot');
     }
     if (opened) input.focus();
+    // On mobile the panel goes full-screen — lock the page behind it
+    // so there's no confusing double-scroll.
+    if (window.innerWidth <= 640) {
+      document.body.style.overflow = opened ? 'hidden' : '';
+    }
   }
 
   launcher.addEventListener('click', toggle);

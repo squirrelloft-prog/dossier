@@ -92,6 +92,33 @@ section { position: relative; }
   text-decoration: none;
 }
 
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.nav__burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--t-fast), opacity var(--t-fast);
+}
+.nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__burger.is-open span:nth-child(2) { opacity: 0; }
+.nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg);
+}
+
 /* ─────────────────────────────────────────────
    Hero
 ───────────────────────────────────────────── */
@@ -341,13 +368,27 @@ section { position: relative; }
   #gcol-a, #gcol-b { grid-template-columns: repeat(2, 120px); column-gap: 16px; }
 }
 @media (max-width: 640px) {
-  .gcols { grid-template-columns: 1fr; }
-  .gcols { padding: 18px 14px; }
+  /* Below this width the graph stops being a grid altogether and becomes
+     a plain vertical stack — the grid-row/column bookkeeping above was
+     never reset here, so trigger/cases/service all landed in the same
+     cell and rendered on top of each other. A flex column with explicit
+     `order` sidesteps that whole class of bug. */
+  .gcols {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 18px 14px;
+  }
   .gcol { align-items: center; gap: 16px; }
-  #gcol-trigger, #gcol-a, #gcol-b, #gcol-service { grid-column: 1; }
-  .gcols__nodes-cue { grid-column: 1; }
+  #gcol-trigger      { order: 1; width: 100%; }
+  .gcols__nodes-cue  { order: 2; margin-bottom: 0; }
+  #gcol-a            { order: 3; }
+  #gcol-b            { order: 4; }
+  #gcol-service      { order: 5; }
   #gcol-a, #gcol-b { justify-content: center; }
 }
+
 
 /* ─────────────────────────────────────────────
    Graph edges (SVG paths)
@@ -1379,9 +1420,34 @@ section { position: relative; }
   }
   .skills-col:first-child { padding-left: 0; }
   .skills-col:last-child  { padding-right: 0; padding-bottom: 0; border-bottom: none; }
-  .nav__links { display: none; }
+
+  .nav__burger { display: flex; }
+  .nav__links {
+    position: fixed;
+    top: 56px; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--t-base);
+  }
+  .nav__links.is-open { max-height: 300px; }
+  .nav__links a {
+    padding: 15px 24px;
+    border-bottom: 1px solid var(--border);
+  }
 }
 @media (max-width: 640px) {
   .case-fig-grid--2,
   .case-fig-grid--3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 400px) {
+  /* Narrow phones: shrink the node tiles a bit further so two fit
+     comfortably side by side without crowding the screen edges. */
+  .gnode--case, .gnode--service { width: 112px; }
+  .gnode__tile { width: 72px; height: 72px; }
+  .gnode__icon { width: 36px; height: 36px; font-size: 14px; }
+  #gcol-a, #gcol-b { grid-template-columns: repeat(2, 112px); column-gap: 12px; row-gap: 14px; }
 }

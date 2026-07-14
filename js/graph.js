@@ -510,8 +510,27 @@ function initScrollReveal(selector, threshold = 0.15) {
   els.forEach(el => observer.observe(el));
 }
 
+/* ─── Mobile nav: hamburger toggle ─── */
+function initMobileNav() {
+  const burger = document.getElementById('navBurger');
+  const links  = document.getElementById('navLinks');
+  if (!burger || !links) return;
+
+  function setOpen(open) {
+    burger.classList.toggle('is-open', open);
+    links.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  burger.addEventListener('click', () => setOpen(!links.classList.contains('is-open')));
+  links.addEventListener('click', e => {
+    if (e.target.tagName === 'A') setOpen(false);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initGraph();
   initScrollReveal('.skills-col');
   initScrollReveal('.case-section__inner');
+  initMobileNav();
 });

@@ -111,3 +111,23 @@
   font-size: 15px;
 }
 #cw-send:disabled { opacity: 0.5; cursor: default; }
+
+/* Mobile: the small floating panel doesn't work well on a phone screen
+   (cramped, and the on-screen keyboard can cover the input) — go full
+   screen instead, like most mobile chat widgets. */
+@media (max-width: 640px) {
+  #cw-panel {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  #cw-header { padding-top: max(14px, env(safe-area-inset-top)); }
+  #cw-input-row { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+}
