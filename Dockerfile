@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM cr.yandex/mirror/nginx:alpine
 
 LABEL traefik.enable="true"
 LABEL traefik.http.routers.dossier.rule="Host(`dossier.zive26.ru`)"
