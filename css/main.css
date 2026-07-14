@@ -12,6 +12,20 @@ body {
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Subtle film-grain texture over the whole page — one tiny inline SVG,
+   no image request, static (not re-painted), so it costs ~nothing. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: .045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 a { color: var(--accent); text-decoration: none; }
@@ -222,7 +236,7 @@ section { position: relative; }
   position: relative;
   width: 100%;
   background-image:
-    radial-gradient(circle, rgba(58,62,86,.55) 1px, transparent 1px);
+    radial-gradient(circle, rgba(120,126,158,.9) 1.4px, transparent 1.4px);
   background-size: 28px 28px;
   border-radius: 12px;
 }
@@ -238,24 +252,101 @@ section { position: relative; }
 /* ── Column grid inside canvas ── */
 .gcols {
   display: grid;
-  grid-template-columns: 250px 1fr 1fr 185px;
-  gap: 20px;
-  padding: 28px 24px 36px;
+  grid-template-columns: 220px 284px 284px 148px;
+  grid-template-rows: auto auto;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 24px 32px 28px;
   position: relative;
   z-index: 1;
 }
 
+.gcol { grid-row: 2; }
+#gcol-trigger { grid-column: 1; }
+#gcol-a       { grid-column: 2; }
+#gcol-b       { grid-column: 3; }
+#gcol-service { grid-column: 4; }
+
 .gcol {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  gap: 20px;
+}
+#gcol-trigger { align-items: stretch; }
+
+/* Case clusters (teal / coral+purple): a 2-column mini-grid instead of a
+   single 5-tall file — cuts the cluster height roughly in half so the
+   whole graph fits on one screen. Node order fills left-to-right,
+   top-to-bottom automatically (source order = NODES array order). */
+#gcol-a, #gcol-b {
+  display: grid;
+  grid-template-columns: repeat(2, 132px);
+  column-gap: 20px;
+  row-gap: 18px;
+  align-content: start;
+}
+
+/* "Нажимай ↓" cue, sitting in its own row above the case-node columns */
+.gcols__nodes-cue {
+  grid-row: 1;
+  grid-column: 2 / 4;
+  align-self: end;
+  justify-self: center;
+  margin-bottom: 6px;
+}
+
+/* "Нажимай" cues — label + arrow side by side, white text, white-filled
+   arrow badge (accent-colored glyph inside for a small brand touch). */
+.gcue {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.gcue--up { align-self: center; margin-top: 4px; }
+
+.gcue__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.gcue__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,.4);
+}
+.gcue--up .gcue__arrow   { animation: bounce-up 1.8s ease-in-out infinite; }
+.gcue--down .gcue__arrow { animation: bounce 1.8s ease-in-out infinite; }
+
+@keyframes bounce-up {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @media (max-width: 1000px) {
-  .gcols { grid-template-columns: 220px 1fr 1fr 160px; gap: 14px; }
+  .gcols { grid-template-columns: 200px 260px 260px 132px; gap: 20px; padding: 22px 20px 26px; }
+  #gcol-a, #gcol-b { grid-template-columns: repeat(2, 120px); column-gap: 16px; }
 }
-@media (max-width: 768px) {
-  .gcols { grid-template-columns: 1fr; padding: 20px 16px; }
+@media (max-width: 640px) {
+  .gcols { grid-template-columns: 1fr; }
+  .gcols { padding: 18px 14px; }
+  .gcol { align-items: center; gap: 16px; }
+  #gcol-trigger, #gcol-a, #gcol-b, #gcol-service { grid-column: 1; }
+  .gcols__nodes-cue { grid-column: 1; }
+  #gcol-a, #gcol-b { justify-content: center; }
 }
 
 /* ─────────────────────────────────────────────
@@ -266,7 +357,11 @@ section { position: relative; }
   stroke: var(--border-light);
   stroke-width: 1.5px;
   opacity: .30;
-  transition: opacity var(--t-slow), stroke var(--t-slow), stroke-width var(--t-base);
+  transition:
+    opacity var(--t-slow),
+    stroke var(--t-slow),
+    stroke-width var(--t-base),
+    stroke-dashoffset 900ms cubic-bezier(.4, 0, .2, 1);
 }
 .gedge.is-active {
   opacity: .75;
@@ -282,133 +377,157 @@ section { position: relative; }
 .gedge[data-cat="gray"].is-active   { stroke: var(--c-gray); opacity: .35; }
 
 /* ─────────────────────────────────────────────
-   Graph nodes
+   Graph nodes — n8n-style square tile + label below
 ───────────────────────────────────────────── */
 .gnode {
   position: relative;
-  width: 100%;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: visible;
-  opacity: .70;
-  transition:
-    opacity var(--t-slow),
-    border-color var(--t-base),
-    box-shadow var(--t-slow);
-}
-.gnode:hover:not(.gnode--trigger) {
-  border-color: var(--border-light);
-  z-index: 10;
+  opacity: 1;
+  transition: opacity var(--t-slow), filter var(--t-slow);
 }
 
-/* category accent stripe */
-.gnode[data-cat="teal"]   { border-left: 3px solid var(--c-teal);   }
-.gnode[data-cat="coral"]  { border-left: 3px solid var(--c-coral);  }
-.gnode[data-cat="purple"] { border-left: 3px solid var(--c-purple); }
-.gnode[data-cat="gray"]   { border-left: 3px solid var(--c-gray);   }
+/* case + service nodes: square icon tile, label sits BELOW it (not inside) */
+.gnode--case,
+.gnode--service {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 132px;
+  cursor: pointer;
+}
+.gnode--service { cursor: default; }
+.gnode--service a { cursor: pointer; }
 
-/* active */
-.gnode.is-active { opacity: 1; }
-.gnode.is-dimmed { opacity: .16; pointer-events: none; }
+.gnode__tile {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  background: var(--bg-tile);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.45);
+  transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+}
+
+/* hover = clearly interactive: tile glows in the category color + lifts */
+.gnode--case:hover .gnode__tile {
+  transform: translateY(-3px) scale(1.04);
+}
+.gnode[data-cat="teal"]:hover   .gnode__tile { border-color: var(--c-teal);   box-shadow: 0 0 0 1.5px var(--c-teal),   0 8px 22px var(--c-teal-glow);   }
+.gnode[data-cat="coral"]:hover  .gnode__tile { border-color: var(--c-coral);  box-shadow: 0 0 0 1.5px var(--c-coral),  0 8px 22px var(--c-coral-glow);  }
+.gnode[data-cat="purple"]:hover .gnode__tile { border-color: var(--c-purple); box-shadow: 0 0 0 1.5px var(--c-purple), 0 8px 22px var(--c-purple-glow); }
+.gnode[data-cat="gray"]:hover   .gnode__tile { border-color: var(--border-light); }
+
+/* ── Role relevance: active glow / dimmed grayscale (case nodes only) ── */
+.gnode--case.is-active[data-cat="teal"]   .gnode__tile { border-color: var(--c-teal);   box-shadow: 0 0 0 1.5px var(--c-teal),   0 0 18px var(--c-teal-glow);   }
+.gnode--case.is-active[data-cat="coral"]  .gnode__tile { border-color: var(--c-coral);  box-shadow: 0 0 0 1.5px var(--c-coral),  0 0 18px var(--c-coral-glow);  }
+.gnode--case.is-active[data-cat="purple"] .gnode__tile { border-color: var(--c-purple); box-shadow: 0 0 0 1.5px var(--c-purple), 0 0 18px var(--c-purple-glow); }
+
+.gnode--case.is-dimmed {
+  opacity: .40;
+  filter: grayscale(.85);
+}
 
 /* always-open pet node: stays readable even when dimmed */
-.gnode[data-always-open].is-dimmed { opacity: .55; }
+.gnode--case[data-always-open].is-dimmed { opacity: 1; filter: none; }
 
-/* ── Node body ── */
-.gnode__body { padding: 11px 13px 13px; }
+/* ── Icon badge — the "colored category indicator" inside the tile ── */
+.gnode__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--c-gray);
+}
+.gnode[data-cat="teal"]   .gnode__icon { background: var(--c-teal);   box-shadow: 0 0 14px -2px var(--c-teal-glow);   }
+.gnode[data-cat="coral"]  .gnode__icon { background: var(--c-coral);  box-shadow: 0 0 14px -2px var(--c-coral-glow);  }
+.gnode[data-cat="purple"] .gnode__icon { background: var(--c-purple); box-shadow: 0 0 14px -2px var(--c-purple-glow); }
 
-.gnode__cat {
+/* case-node hover cue: small arrow appears top-right of the tile */
+.gnode--case::after {
+  content: '→';
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-raised);
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: .09em;
-  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+  pointer-events: none;
+}
+.gnode--case:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Label — lives under the tile, not inside a bordered card ── */
+.gnode__label {
+  margin-top: 9px;
+  text-align: center;
+  width: 100%;
+}
+
+.gnode__cat {
   display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.3;
   margin-bottom: 3px;
 }
 .gnode[data-cat="teal"]   .gnode__cat { color: var(--c-teal);   }
 .gnode[data-cat="coral"]  .gnode__cat { color: var(--c-coral);  }
 .gnode[data-cat="purple"] .gnode__cat { color: var(--c-purple); }
-.gnode[data-cat="gray"]   .gnode__cat { color: var(--c-gray);   }
+/* gray = service nodes: c-gray is a dark border tone, unreadable as text — use a bright neutral instead */
+.gnode[data-cat="gray"]   .gnode__cat { color: var(--text-xs); }
 
 .gnode__title {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text);
   line-height: 1.35;
-}
-
-.gnode__meta {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 3px;
-  line-height: 1.4;
-}
-
-/* ── Expanded content ── */
-.gnode__expanded {
-  max-height: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  opacity: 0;
-  transition:
-    max-height var(--t-slow),
-    opacity var(--t-base) 80ms;
 }
 
-.gnode.is-active .gnode__expanded,
-.gnode[data-always-open] .gnode__expanded {
-  max-height: 500px;
-  opacity: 1;
-}
-
-.gnode__bullets {
-  margin: 9px 0 8px;
+/* mini live-counter strip under the pet-project node's label */
+.gnode__mini-counter {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.gnode__bullets li {
-  font-size: 13px;
-  color: var(--text);
-  padding-left: 14px;
-  position: relative;
-  line-height: 1.45;
-}
-.gnode__bullets li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--text-xs);
-}
-
-.gnode__result {
-  font-size: 11px;
-  color: var(--text-dim);
-  background: var(--bg-raised);
-  border-left: 2px solid var(--c-teal);
-  padding: 5px 8px;
-  border-radius: 0 4px 4px 0;
-  margin: 6px 0 8px;
-  line-height: 1.4;
-}
-
-.gnode__link {
-  display: inline-block;
-  margin-top: 4px;
-  font-size: 11px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 5px;
+  font-size: 10px;
   font-weight: 600;
-  color: var(--accent);
-  letter-spacing: .02em;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
 }
-.gnode__link:hover { text-decoration: underline; }
+.gnode__mini-counter-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-purple);
+  box-shadow: 0 0 0 0 var(--c-purple-glow);
+  animation: pet-pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
 
-/* badge row */
-.gnode__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin: 7px 0 6px;
-}
+/* badge row (used in text case sections) */
 .badge {
   font-size: 10px;
   font-weight: 700;
@@ -422,52 +541,37 @@ section { position: relative; }
 .badge--amber   { background: var(--s-amber);   color: var(--s-amber-fg);   }
 .badge--neutral { background: var(--s-neutral); color: var(--s-neutral-fg); }
 
-/* live counter */
-.gnode__counter {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin: 8px 0 4px;
-  padding: 8px 10px;
-  background: var(--c-purple-dim);
-  border: 1px solid rgba(107,75,178,.25);
-  border-radius: 6px;
-}
-.gnode__counter-num {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-  font-family: var(--font-mono);
-}
-.gnode__counter-label {
-  font-size: 10px;
-  color: var(--text-dim);
-  line-height: 1.3;
-}
-
-/* connector ports */
+/* connector ports — small gray dots attached to the tile's edge */
 .gnode__port {
   position: absolute;
   width: 9px; height: 9px;
   background: var(--bg-raised);
   border: 1.5px solid var(--border-light);
   border-radius: 50%;
-  top: 35px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 2;
   pointer-events: none;
 }
 .gnode__port--in  { left: -5px; }
 .gnode__port--out { right: -5px; }
 
-/* ── Trigger node ── */
+/* ── Trigger node ──
+   Deliberately NOT a square tile: it's a switch node with real controls
+   inside, so it keeps the wider card shape — but with its own strong
+   accent border so it doesn't get lost next to the compact tiles. */
 .gnode--trigger {
   width: 100%;
-  border-left: 3px solid var(--accent) !important;
-  box-shadow: 0 0 32px var(--accent-glow);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  box-shadow: 0 0 32px var(--accent-glow), 0 4px 14px rgba(0,0,0,.4);
   opacity: 1 !important;
   z-index: 5;
 }
+.gnode--trigger .gnode__body { padding: 16px 18px 18px; }
+.gnode--trigger .gnode__port { top: 31px; transform: none; }
 
 .gnode__trigger-label {
   font-size: 9.5px;
@@ -487,28 +591,46 @@ section { position: relative; }
 .trigger-tabs {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
 }
+/* Pill-shaped buttons — deliberately NOT node-shaped (rounded rect),
+   so they read as controls, not as case cards next to them. */
 .trigger-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   background: var(--bg-raised);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-dim);
+  border: 1.5px solid var(--border-light);
+  border-radius: 999px;
+  color: var(--text);
   font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 9px 16px;
   text-align: left;
   cursor: pointer;
   transition: all var(--t-fast);
 }
-.trigger-tab:hover { border-color: var(--border-light); color: var(--text); }
+.trigger-tab::after {
+  content: '→';
+  font-size: 12px;
+  opacity: .45;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.trigger-tab:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  transform: translateX(2px);
+}
+.trigger-tab:hover::after { opacity: .9; transform: translateX(2px); }
 .trigger-tab.is-active {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-  font-weight: 600;
+  box-shadow: 0 4px 14px var(--accent-glow);
 }
+.trigger-tab.is-active::after { opacity: 1; }
 
 .trigger-reset {
   margin-top: 6px;
@@ -523,26 +645,26 @@ section { position: relative; }
 }
 .trigger-reset:hover { color: var(--text-dim); }
 
-/* ── Service nodes ── */
+/* ── Service nodes ──
+   Always fully visible — never governed by role-relevance dimming,
+   regardless of whether a role is selected or which one. */
 .gnode--service {
-  opacity: .55;
-  cursor: pointer;
-  transition: opacity var(--t-base);
+  opacity: 1 !important;
+  filter: none !important;
 }
-.gnode--service:hover { opacity: .9; }
+.gnode--service:hover { border-color: var(--border-light); }
 
-/* pulse on pet node */
+/* pulse (live pet-project counter dot) */
 @keyframes pet-pulse {
   0%, 100% { box-shadow: 0 0 0 0 var(--c-purple-glow); }
-  50% { box-shadow: 0 0 0 6px transparent; }
-}
-.gnode[data-id="c9"] {
-  animation: pet-pulse 2.8s ease-in-out infinite;
+  50% { box-shadow: 0 0 0 4px transparent; }
 }
 
 /* ── Flagship badge ── */
 .gnode__flagship {
+  position: relative;
   display: inline-block;
+  overflow: hidden;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: .08em;
@@ -553,6 +675,288 @@ section { position: relative; }
   padding: 1px 6px;
   margin-left: 6px;
   vertical-align: middle;
+}
+/* periodic shimmer sweep – draws the eye to the one flagship case */
+.gnode__flagship::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.65), transparent);
+  transform: translateX(-150%);
+  animation: flagship-shimmer 3.4s ease-in-out infinite;
+}
+@keyframes flagship-shimmer {
+  0%   { transform: translateX(-150%); }
+  35%  { transform: translateX(250%); }
+  100% { transform: translateX(250%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gnode__flagship::after { animation: none; display: none; }
+}
+
+/* ─────────────────────────────────────────────
+   Case popup — overlay panel over the graph
+   (backdrop dims the graph but keeps it visible;
+   NOT a full-screen modal)
+───────────────────────────────────────────── */
+.gpopup-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(13, 14, 18, .70);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t-base), visibility 0s linear var(--t-base);
+}
+.gpopup-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--t-base), visibility 0s;
+}
+
+.gpopup {
+  --dx: 0px;
+  --dy: 0px;
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,.55);
+  /* fly-out: starts scaled down at the clicked node's position (--dx/--dy,
+     set from JS), grows into place — reads as "this node, opened up" */
+  transform: translate(var(--dx), var(--dy)) scale(.28);
+  opacity: 0;
+  transition: transform 380ms cubic-bezier(.22,.85,.32,1.15), opacity 200ms ease;
+}
+.gpopup-overlay.is-open .gpopup {
+  transform: translate(0, 0) scale(1);
+  opacity: 1;
+}
+
+/* category-tinted glow around the whole panel — the popup's tie to its category */
+.gpopup[data-cat="teal"]   { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-teal),   0 0 50px -6px var(--c-teal-glow);   }
+.gpopup[data-cat="coral"]  { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-coral),  0 0 50px -6px var(--c-coral-glow);  }
+.gpopup[data-cat="purple"] { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-purple), 0 0 50px -6px var(--c-purple-glow); }
+
+/* decorative drag/resize handle — the small n8n signature detail at the
+   very top edge of an open node panel. Purely cosmetic. */
+.gpopup__resize-handle {
+  position: absolute;
+  top: 8px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  padding: 4px 8px;
+  z-index: 1;
+}
+.gpopup__resize-handle span {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--border-light);
+}
+
+/* ── Title bar — a distinct strip, separated from the body, like n8n's
+   node-panel header (icon + name + close), not just padding above text ── */
+.gpopup__titlebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border);
+}
+
+.gpopup__icon-tile {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-gray);
+}
+.gpopup[data-cat="teal"]   .gpopup__icon-tile { background: var(--c-teal);   box-shadow: 0 0 14px -2px var(--c-teal-glow);   }
+.gpopup[data-cat="coral"]  .gpopup__icon-tile { background: var(--c-coral);  box-shadow: 0 0 14px -2px var(--c-coral-glow);  }
+.gpopup[data-cat="purple"] .gpopup__icon-tile { background: var(--c-purple); box-shadow: 0 0 14px -2px var(--c-purple-glow); }
+
+.gpopup__icon {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.gpopup__title {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.gpopup__close {
+  flex-shrink: 0;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-radius: 50%;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.gpopup__close:hover {
+  color: #fff;
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* ── Body — three panels, like INPUT / PARAMETERS / OUTPUT ──
+   min-height ~1.5× the natural content height, so the open node reads
+   as a real panel (with the same kind of roomy whitespace n8n's own
+   INPUT/OUTPUT columns have) rather than a tightly-hugging card. */
+.gpopup__panels {
+  display: grid;
+  grid-template-columns: 188px minmax(0, 1fr) 224px;
+  min-height: 426px;
+}
+
+.gpopup__panel {
+  padding: 20px 18px 24px;
+  min-width: 0;
+}
+.gpopup__panel--input  { border-right: 1px solid var(--border); }
+.gpopup__panel--output { border-left:  1px solid var(--border); background: rgba(0,0,0,.15); }
+
+.gpopup__panel-head {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  margin-bottom: 12px;
+}
+.gpopup__count { color: var(--text-xs); font-weight: 600; letter-spacing: 0; text-transform: none; }
+
+.gpopup__meta {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+/* INPUT: relevant role-triggers feeding into this case — echoes the
+   trigger node's own role switches, and mimics n8n's "connected node" rows */
+.gpopup__inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gpopup__input-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.gpopup__input-bolt { color: var(--accent); font-size: 11px; flex-shrink: 0; }
+
+/* PARAMETERS: the actual teaser content — the popup's main reason to exist */
+.gpopup__tabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.gpopup__tab {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-xs);
+  padding-bottom: 9px;
+  border-bottom: 2px solid transparent;
+}
+.gpopup__tab--active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
+.gpopup__cat {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  margin-bottom: 8px;
+}
+.gpopup[data-cat="teal"]   .gpopup__cat { color: var(--c-teal);   }
+.gpopup[data-cat="coral"]  .gpopup__cat { color: var(--c-coral);  }
+.gpopup[data-cat="purple"] .gpopup__cat { color: var(--c-purple); }
+
+.gpopup__teaser {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.gpopup__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 11px 20px;
+  transition: filter var(--t-fast), transform var(--t-fast);
+}
+.gpopup__cta:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #fff;
+}
+
+/* OUTPUT: stats rendered as JSON — a code-editor-style readout,
+   the most recognizable n8n signature of all */
+.gpopup__json {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--text-xs);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.gj-str { color: var(--s-amber-fg); }
+
+@media (max-width: 720px) {
+  .gpopup__panels { grid-template-columns: 1fr; }
+  .gpopup__panel--input,
+  .gpopup__panel--output { display: none; }
 }
 
 /* ─────────────────────────────────────────────
@@ -600,8 +1004,9 @@ section { position: relative; }
 
 .case-section__back {
   margin-left: auto;
-  font-size: 11px;
-  color: var(--text-xs);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dim);
 }
 .case-section__back:hover { color: var(--accent); }
 
@@ -641,7 +1046,7 @@ section { position: relative; }
   line-height: 1.55;
 }
 .case-section ul li::before {
-  content: '—';
+  content: '•';
   position: absolute;
   left: 0;
   color: var(--text-xs);
@@ -734,12 +1139,37 @@ section { position: relative; }
   gap: 20px;
 }
 
+/* Deliberately NOT card-shaped like the graph nodes/buttons — this is
+   static reference content, not something to click. A thin divider
+   between columns instead of a bordered/rounded box keeps it from
+   reading as interactive. */
 .skills-col {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 22px;
+  padding: 0 26px;
+  border-right: 1px solid var(--border);
 }
+.skills-col:first-child { padding-left: 0; }
+.skills-col:last-child  { padding-right: 0; border-right: none; }
+
+/* Decorative one-shot reveal on scroll — see initScrollReveal() in
+   js/graph.js. Never responds to hover/click; JS adds .is-pending only
+   if it runs, so content stays visible by default without JS. Shared
+   by the skills columns and each case-section's text block. */
+.is-pending {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-pending { opacity: 1; transform: none; transition: none; }
+}
+
+.skills-col:nth-child(1) { transition-delay: 0ms; }
+.skills-col:nth-child(2) { transition-delay: 130ms; }
+.skills-col:nth-child(3) { transition-delay: 260ms; }
 
 .skills-col__heading {
   font-size: 11px;
@@ -827,16 +1257,35 @@ section { position: relative; }
 
 .contacts__links {
   display: flex;
-  gap: 24px;
+  gap: 14px;
   justify-content: center;
   margin-top: 24px;
+  flex-wrap: wrap;
 }
-.contacts__links a {
+
+.btn-telegram { background: var(--brand-telegram); }
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: 13px;
-  color: var(--text-dim);
-  transition: color var(--t-fast);
+  font-weight: 600;
+  color: #fff;
+  border-radius: 8px;
+  padding: 11px 20px;
+  transition: filter var(--t-fast), transform var(--t-fast);
 }
-.contacts__links a:hover { color: var(--text); text-decoration: none; }
+.btn-contact:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  text-decoration: none;
+  color: #fff;
+}
+.btn-contact--email { background: var(--brand-email); }
+.btn-contact--max {
+  background: linear-gradient(135deg, var(--brand-max-1) 0%, var(--brand-max-2) 66.2%, var(--brand-max-3) 100%);
+}
 
 /* ─────────────────────────────────────────────
    Case media / figures
@@ -923,6 +1372,13 @@ section { position: relative; }
 ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .skills-grid { grid-template-columns: 1fr; }
+  .skills-col {
+    padding: 0 0 22px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .skills-col:first-child { padding-left: 0; }
+  .skills-col:last-child  { padding-right: 0; padding-bottom: 0; border-bottom: none; }
   .nav__links { display: none; }
 }
 @media (max-width: 640px) {

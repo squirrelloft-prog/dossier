@@ -2,6 +2,7 @@
   --bg:           #13141A;
   --bg-raised:    #1C1E27;
   --bg-card:      #21232E;
+  --bg-tile:      #17181D;
   --border:       #2E3044;
   --border-light: #3A3E56;
   --text:         #ffffff;
@@ -14,8 +15,10 @@
 
   --c-teal:        #14887D;
   --c-teal-dim:    rgba(20, 136, 125, 0.13);
+  --c-teal-glow:   rgba(20, 136, 125, 0.35);
   --c-coral:       #C24E62;
   --c-coral-dim:   rgba(194, 78, 98, 0.13);
+  --c-coral-glow:  rgba(194, 78, 98, 0.35);
   --c-purple:      #6B4BB2;
   --c-purple-dim:  rgba(107, 75, 178, 0.13);
   --c-purple-glow: rgba(107, 75, 178, 0.20);
@@ -30,6 +33,14 @@
   --s-amber-fg:   #D4A030;
   --s-neutral:    #4A5268;
   --s-neutral-fg: #8A92A8;
+
+  /* Contact-button brand colors */
+  --brand-telegram: #24A1DE;
+  --brand-email:    #1DB954;
+  /* MAX gradient stops — sourced directly from images/Логотип_MAX.svg */
+  --brand-max-1:    #44CCFF;
+  --brand-max-2:    #5533EE;
+  --brand-max-3:    #9933DD;
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Mono', 'Consolas', monospace;

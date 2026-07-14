@@ -1,5 +1,9 @@
-/* ─── Port dot offset from node top (px) ─── */
-const PH = 35;
+/* ─── Role labels (shared by the trigger tabs and the popup's INPUT panel) ─── */
+const ROLE_LABELS = {
+  n8n: 'n8n-разработчик',
+  pm:  'Technical PM',
+  ai:  'AI-LLM Integration',
+};
 
 /* ─── Which column each node lives in ─── */
 const COL = {
@@ -9,7 +13,9 @@ const COL = {
   skills: 'gcol-service', about: 'gcol-service', contacts: 'gcol-service',
 };
 
-/* ─── Node data (no x/y — layout handled by CSS columns) ─── */
+/* ─── Node data (no x/y – layout handled by CSS columns) ───
+   teaser  – 1-2 line popup description
+   stats   – short "key figures" line for the popup            */
 const NODES = [
   { id: 'trigger', type: 'trigger' },
 
@@ -18,26 +24,18 @@ const NODES = [
     id: 'c1', type: 'case', cat: 'teal', roles: ['n8n'],
     cat_label: 'IT-компания',
     title: 'Воронки и боты-квесты',
-    meta: 'Соло-разработчик · 6 мес',
-    bullets: [
-      '~20 ботов разной сложности, включая вебинарные воронки',
-      'Telegram-квесты — вызвали интерес в профессиональном сообществе',
-      '5 вебинаров: техническая организация (Bizon365 + OBS)',
-      'Методология аналитики из чат-бот воронок',
-    ],
+    meta: 'Соло · 6 мес',
+    teaser: 'Единолично разрабатывала вебинарные воронки и игровые Telegram-квесты – механики вызвали интерес в профессиональном сообществе, вплоть до попыток копирования.',
+    stats: '~20 ботов · 5 вебинаров · 6 мес',
     anchor: 'case-1',
   },
   {
     id: 'c2', type: 'case', cat: 'teal', roles: ['n8n', 'pm'],
     cat_label: 'IT-компания',
     title: 'Техлид агентства ботов',
-    meta: 'Технический лидер · 8 мес · команда 3–5',
-    bullets: [
-      '~150 ботов для ~50 клиентов',
-      'Интеграции: CRM, ChatGPT, Telegram Personal, платежи',
-      'Аналитика прохождения воронки — где клиенты «застревают»',
-      'Найм и онбординг, методология документации',
-    ],
+    meta: 'Техлид · 8 мес · команда 3–5',
+    teaser: 'Руководила технической стороной агентства чат-ботов на Salebot, регулярно выходя за рамки конструктора – кастомные интеграции через API и n8n.',
+    stats: '~150 ботов · ~50 клиентов · 8 мес',
     anchor: 'case-2',
   },
   {
@@ -45,13 +43,8 @@ const NODES = [
     cat_label: 'IT-компания',
     title: 'CRM-аналитика и телефония',
     meta: 'Сквозная аналитика · 3 мес',
-    bullets: [
-      '~10 подрядчиков: точное число и стоимость лидов',
-      'amoCRM + Битрикс24 + Tilda — сквозная цепочка',
-      'n8n полностью заменил ручной сбор данных',
-      'Телефония: Сипуни + Мегафон → Манго',
-    ],
-    result: 'Ручной сбор → оперативная автоматика без задержки',
+    teaser: 'Настроила сквозную аналитику рекламных кампаний для ~10 подрядчиков – ручной сбор данных полностью заменён автоматикой на n8n.',
+    stats: '~10 подрядчиков · 4 воронки · 3 мес',
     anchor: 'case-3',
   },
   {
@@ -60,14 +53,8 @@ const NODES = [
     title: 'Контент-фабрика',
     meta: 'Техдир автоматизации · 8 мес',
     flagship: true,
-    bullets: [
-      '90 аккаунтов × 7 площадок, до 1890 роликов/день',
-      'Статистика: n8n + Apify + API → PostgreSQL → Superset',
-      'AI-разведка: анализ видео, Gemini/Claude, база хуков',
-      'Уникализация: n8n + ffmpeg + S3',
-      'Телефонная ферма 90 устройств — 10× ускорение операторов',
-      'Кастомные отчёты на Claude + MCP',
-    ],
+    teaser: 'Техдир автоматизации промышленного производства контента: сбор статистики, AI-разведка, уникализация видео и телефонная ферма – под одной инфраструктурой.',
+    stats: '90 аккаунтов · 1890 роликов/день · 10× ускорение',
     anchor: 'case-4',
   },
   {
@@ -75,12 +62,8 @@ const NODES = [
     cat_label: 'Онлайн-школа · 5 млн подписчиков',
     title: 'Техспециалист онлайн-школы',
     meta: '7+ лет',
-    bullets: [
-      'Автоворонки: Salebot, Tilda, GetCourse, Bitrix24',
-      'Пик: 39 000+ регистраций, 16 500 одновременных зрителей',
-      'Аналитика: продажи, финансы, производство',
-      '800+ тыс. клиентов в базе на пике',
-    ],
+    teaser: '7+ лет технической инфраструктуры онлайн-школы: автоворонки, вебинары и аналитика под большими пиковыми нагрузками и растущей базой клиентов.',
+    stats: '39 000+ регистраций · 16 500 зрителей разом · 800+ тыс. клиентов',
     anchor: 'case-5',
   },
 
@@ -90,45 +73,26 @@ const NODES = [
     cat_label: 'Фриланс · NDA',
     title: 'Лендинг + lead-инфраструктура',
     meta: 'Full-stack · AI-assisted',
-    bullets: [
-      'Пиксель-перфект по Figma, 3 брейкпоинта',
-      'Lighthouse мобайл: 63 → ~85',
-      'Форма → CRM: дедупликация, UTM, ответственный',
-      'Чат → CRM: собственный вебхук вместо платного',
-      'DevOps: staging + продакшен на Docker',
-    ],
+    teaser: 'Лендинг B2B SaaS с нуля до продакшена – плюс lead-инфраструктура: форма и онлайн-чат подключены к CRM, разработка в связке с AI-инструментами.',
+    stats: 'Lighthouse 63→~85 · 3 брейкпоинта',
     anchor: 'case-6',
   },
   {
     id: 'c7', type: 'case', cat: 'coral', roles: ['n8n'],
     cat_label: 'Фриланс · NDA',
     title: '«Тихие» баги в синхронизации CRM',
-    meta: 'n8n · amoCRM · Bitrix24 · PostgreSQL · Directus',
-    bullets: [
-      'Лиды из amoCRM → Bitrix24: двусторонняя синхронизация',
-      'Диагностика «тихих» багов — без явных ошибок в логах',
-      'Maппинг справочников через Directus',
-    ],
+    meta: 'n8n · amoCRM · Bitrix24',
+    teaser: 'Нашла и устранила «тихие» баги в двусторонней синхронизации между CRM – без единой явной ошибки в логах.',
+    stats: 'n8n · amoCRM · Bitrix24 · Directus',
     anchor: 'case-7',
   },
   {
     id: 'c8', type: 'case', cat: 'coral', roles: ['pm', 'ai'],
     cat_label: 'Фриланс · NDA',
     title: 'Диагностика корпоративного трекера',
-    meta: '5 кейсов · 0 безвозвратных потерь данных',
-    bullets: [
-      'Root-cause: отчёт падал без записи в логах',
-      'Синхронизация CMS ↔ трекер: 350 задач в миграции',
-      'Groovy-листенер вместо хрупкой встроенной автоматики',
-      '«Правила-призраки»: поля обнулялись без причин',
-    ],
-    badges: [
-      { text: 'Решено', type: 'green' },
-      { text: 'Решено', type: 'green' },
-      { text: 'Решено', type: 'green' },
-      { text: 'Решено', type: 'green' },
-      { text: 'Спланировано', type: 'neutral' },
-    ],
+    meta: '5 кейсов',
+    teaser: 'Серия инженерных задач для корпоративного трекера: от root-cause диагностики без единой записи в логах до восстановления потерянных данных.',
+    stats: '5 кейсов · ~350 задач в миграции · 0 потерь данных',
     anchor: 'case-8',
   },
   {
@@ -136,27 +100,19 @@ const NODES = [
     cat_label: 'Фриланс · 2026',
     title: 'Дашборд для отдела продаж',
     meta: 'Apache Superset · PostgreSQL',
-    bullets: [
-      'PostgreSQL — единое хранилище данных воронки',
-      'Веб-форма для менеджеров: ввод данных без SQL',
-      'Superset: KPI-карточки, помесячная динамика, конверсия',
-      'Условное форматирование: план/факт, отклонения по этапам',
-    ],
-    result: 'Оперативная аналитика вместо постфактум-таблиц',
+    teaser: 'Аналитическая система учёта воронки продаж на Apache Superset – заменила ручные таблицы оперативной аналитикой по конверсии.',
+    stats: 'PostgreSQL · KPI-дашборд · план/факт',
     anchor: 'case-10',
   },
   {
     id: 'c9', type: 'case', cat: 'purple', roles: ['n8n', 'ai'],
     cat_label: 'Pet-проект',
     title: 'Автоматизация поиска работы',
-    meta: 'Живой счётчик · n8n + Gmail + Telegram',
+    meta: 'Живой счётчик',
     alwaysOpen: true,
     counter: true,
-    bullets: [
-      'Gmail Trigger → парсинг дайджестов HH.ru → Google Sheets',
-      'Мониторинг Telegram-каналов: прямой скрапинг t.me/s/',
-      'Уведомления по приоритетным вакансиям',
-    ],
+    teaser: 'Личная система автопоиска работы: парсинг email-дайджестов HH.ru через Gmail и мониторинг Telegram-каналов с уведомлениями по приоритетным вакансиям.',
+    stats: 'n8n · Gmail · Google Sheets · Telegram',
     anchor: 'case-9',
   },
 
@@ -209,6 +165,14 @@ function initGraph() {
     if (col) col.appendChild(buildNode(n));
   });
 
+  const triggerCol = document.getElementById('gcol-trigger');
+  if (triggerCol) {
+    const cue = document.createElement('div');
+    cue.className = 'gcue gcue--up';
+    cue.innerHTML = `<span class="gcue__label">Нажимай</span><span class="gcue__arrow">↑</span>`;
+    triggerCol.appendChild(cue);
+  }
+
   /* Double rAF: first fires after paint, second after layout is stable */
   requestAnimationFrame(() => requestAnimationFrame(drawAllEdges));
 
@@ -218,22 +182,31 @@ function initGraph() {
   });
 
   document.addEventListener('click', e => {
-    const btn = e.target.closest('[data-role]');
-    if (btn) {
-      const role = btn.dataset.role;
+    const roleBtn = e.target.closest('[data-role]');
+    if (roleBtn) {
+      const role = roleBtn.dataset.role;
       selectRole(currentRole === role ? null : role);
     }
     if (e.target.id === 'triggerReset') selectRole(null);
+
+    const caseNode = e.target.closest('.gnode[data-type="case"]');
+    if (caseNode) openPopup(caseNode.dataset.id, caseNode);
   });
 
+  initPopup();
   loadCounter();
 }
 
 /* ─── Draw all SVG edges ─── */
+let edgesFirstDraw = true;
+
 function drawAllEdges() {
   const canvas = document.getElementById('gCanvas');
   const svg    = document.getElementById('gSvg');
   if (!canvas || !svg) return;
+
+  const firstDraw = edgesFirstDraw;
+  edgesFirstDraw = false;
 
   const W = canvas.offsetWidth;
   const H = canvas.offsetHeight;
@@ -246,18 +219,24 @@ function drawAllEdges() {
 
   const cr = canvas.getBoundingClientRect();
 
-  EDGES.forEach(e => {
+  EDGES.forEach((e, i) => {
     const fromEl = canvas.querySelector(`[data-id="${e.from}"]`);
     const toEl   = canvas.querySelector(`[data-id="${e.to}"]`);
     if (!fromEl || !toEl) return;
 
-    const fr = fromEl.getBoundingClientRect();
-    const tr = toEl.getBoundingClientRect();
+    /* Anchor to the actual port dot (attached to the tile's edge),
+       not an estimated offset – correct for both the square tiles
+       and the wider trigger card. */
+    const fromPort = fromEl.querySelector('.gnode__port--out') || fromEl;
+    const toPort   = toEl.querySelector('.gnode__port--in')    || toEl;
 
-    const fx = fr.right - cr.left;
-    const fy = fr.top   - cr.top  + PH;
-    const tx = tr.left  - cr.left;
-    const ty = tr.top   - cr.top  + PH;
+    const fr = fromPort.getBoundingClientRect();
+    const tr = toPort.getBoundingClientRect();
+
+    const fx = fr.left + fr.width  / 2 - cr.left;
+    const fy = fr.top  + fr.height / 2 - cr.top;
+    const tx = tr.left + tr.width  / 2 - cr.left;
+    const ty = tr.top  + tr.height / 2 - cr.top;
 
     const cpOff = Math.min(Math.abs(tx - fx) * 0.45, 140);
     const d = `M${fx},${fy} C${fx+cpOff},${fy} ${tx-cpOff},${ty} ${tx},${ty}`;
@@ -281,17 +260,32 @@ function drawAllEdges() {
     }
 
     svg.appendChild(path);
+
+    /* First paint only: the wires "draw in" from the trigger outward,
+       staggered per edge – on later redraws (resize, role switch) they
+       just render solid, no repeated animation. */
+    if (firstDraw) {
+      const len = path.getTotalLength();
+      path.style.strokeDasharray  = len;
+      path.style.strokeDashoffset = len;
+      path.style.transitionDelay  = Math.min(i * 45, 400) + 'ms';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        path.style.strokeDashoffset = '0';
+      }));
+    }
   });
 }
 
-/* ─── Build node element ─── */
+/* ─── Build node element (compact – no inline bullets) ─── */
 function buildNode(n) {
   const el = document.createElement('div');
   el.className = 'gnode'
     + (n.type === 'trigger' ? ' gnode--trigger' : '')
-    + (n.type === 'service'  ? ' gnode--service'  : '');
-  el.dataset.id  = n.id;
-  el.dataset.cat = n.cat || '';
+    + (n.type === 'service' ? ' gnode--service' : '')
+    + (n.type === 'case'    ? ' gnode--case'    : '');
+  el.dataset.id   = n.id;
+  el.dataset.type = n.type;
+  el.dataset.cat  = n.cat || '';
   if (n.roles)      el.dataset.roles      = n.roles.join(' ');
   if (n.alwaysOpen) el.dataset.alwaysOpen = 'true';
 
@@ -310,7 +304,7 @@ function triggerHTML() {
     <div class="gnode__port gnode__port--out"></div>
     <div class="gnode__body">
       <div class="gnode__trigger-label">▸ Switch · Trigger</div>
-      <div class="gnode__trigger-title">Кто вы?</div>
+      <div class="gnode__trigger-title">Кто я?</div>
       <div class="trigger-tabs">
         <button class="trigger-tab" data-role="n8n">n8n-разработчик</button>
         <button class="trigger-tab" data-role="pm">Technical PM</button>
@@ -320,13 +314,25 @@ function triggerHTML() {
     </div>`;
 }
 
+function nodeIcon(title) {
+  return (title || '').trim().charAt(0).toUpperCase();
+}
+
+function escapeHTML(str) {
+  return (str || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
 function serviceHTML(n) {
   return `
-    <div class="gnode__port gnode__port--in"></div>
-    <div class="gnode__body">
+    <div class="gnode__tile">
+      <div class="gnode__port gnode__port--in"></div>
+      <span class="gnode__icon">${nodeIcon(n.title)}</span>
+    </div>
+    <div class="gnode__label">
       <span class="gnode__cat">${n.cat_label}</span>
       <div class="gnode__title"><a href="#${n.anchor}">${n.title}</a></div>
-      <div class="gnode__meta">${n.meta}</div>
     </div>`;
 }
 
@@ -334,36 +340,22 @@ function caseHTML(n) {
   const flagshipBadge = n.flagship
     ? `<span class="gnode__flagship">флагман</span>` : '';
 
-  const bullets = (n.bullets || []).map(b => `<li>${b}</li>`).join('');
-
-  const result = n.result
-    ? `<div class="gnode__result">${n.result}</div>` : '';
-
-  const badges = (n.badges || [])
-    .map(b => `<span class="badge badge--${b.type}">${b.text}</span>`).join('');
-  const badgesRow = badges
-    ? `<div class="gnode__badges">${badges}</div>` : '';
-
   const counter = n.counter ? `
-    <div class="gnode__counter">
-      <span class="gnode__counter-num" id="petCounter">—</span>
-      <span class="gnode__counter-label">вакансий<br>обработано ботом</span>
+    <div class="gnode__mini-counter">
+      <span class="gnode__mini-counter-dot"></span>
+      <span id="petCounter">–</span> вакансий
     </div>` : '';
 
   return `
-    <div class="gnode__port gnode__port--in"></div>
-    <div class="gnode__port gnode__port--out"></div>
-    <div class="gnode__body">
+    <div class="gnode__tile">
+      <div class="gnode__port gnode__port--in"></div>
+      <div class="gnode__port gnode__port--out"></div>
+      <span class="gnode__icon">${nodeIcon(n.title)}</span>
+    </div>
+    <div class="gnode__label">
       <span class="gnode__cat">${n.cat_label}</span>
       <div class="gnode__title">${n.title}${flagshipBadge}</div>
-      <div class="gnode__meta">${n.meta}</div>
-      <div class="gnode__expanded">
-        ${counter}
-        <ul class="gnode__bullets">${bullets}</ul>
-        ${result}
-        ${badgesRow}
-        <a class="gnode__link" href="#${n.anchor}">Полный кейс →</a>
-      </div>
+      ${counter}
     </div>`;
 }
 
@@ -384,11 +376,13 @@ function selectRole(role) {
       : el.dataset.tagline !== 'default';
   });
 
-  document.querySelectorAll('.gnode[data-roles]').forEach(node => {
+  /* Only case nodes (data-roles) are subject to relevance dimming.
+     Service nodes never have data-roles and are untouched here. */
+  document.querySelectorAll('.gnode--case[data-roles]').forEach(node => {
     const roles  = (node.dataset.roles || '').split(' ').filter(Boolean);
     const always = node.dataset.alwaysOpen === 'true';
     const rel    = !role || roles.includes(role) || always;
-    node.classList.toggle('is-active', rel);
+    node.classList.toggle('is-active', !!role && rel);
     node.classList.toggle('is-dimmed', !!(role && !rel));
   });
 
@@ -396,19 +390,128 @@ function selectRole(role) {
   setTimeout(drawAllEdges, 420);
 }
 
+/* ─── Popup panel ─── */
+function initPopup() {
+  const overlay = document.getElementById('gPopupOverlay');
+  if (!overlay) return;
+
+  document.getElementById('gPopupClose').addEventListener('click', closePopup);
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closePopup();
+  });
+  document.getElementById('gPopupCta').addEventListener('click', closePopup);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePopup();
+  });
+}
+
+function openPopup(id, nodeEl) {
+  const n = NODES.find(x => x.id === id);
+  if (!n) return;
+
+  const overlay = document.getElementById('gPopupOverlay');
+  const panel   = document.getElementById('gPopup');
+  if (!overlay || !panel) return;
+
+  panel.dataset.cat = n.cat || '';
+  document.getElementById('gPopupIcon').textContent  = nodeIcon(n.title);
+  document.getElementById('gPopupCat').textContent   = n.cat_label;
+  document.getElementById('gPopupTitle').textContent = n.title;
+  document.getElementById('gPopupTeaser').textContent = n.teaser || '';
+  document.getElementById('gPopupCta').href = `#${n.anchor}`;
+  document.getElementById('gPopupMeta').textContent  = n.meta || '';
+
+  const roles = n.roles || [];
+  document.getElementById('gPopupInputs').innerHTML = roles.map(r => `
+    <div class="gpopup__input-row">
+      <span class="gpopup__input-bolt">⚡</span>
+      <span>${ROLE_LABELS[r] || r}</span>
+    </div>`).join('');
+
+  const statItems = (n.stats || '').split(' · ').filter(Boolean);
+  document.getElementById('gPopupCount').textContent = statItems.length ? `· ${statItems.length}` : '';
+  document.getElementById('gPopupJson').innerHTML = statItems.length
+    ? '[\n' + statItems.map((s, i) =>
+        `  <span class="gj-str">"${escapeHTML(s)}"</span>${i < statItems.length - 1 ? ',' : ''}`
+      ).join('\n') + '\n]'
+    : '[]';
+
+  /* Anchor the "fly out" animation to the node that was clicked: the
+     panel starts scaled-down at the node's position and grows into
+     place, instead of a generic center-screen fade. */
+  if (nodeEl) {
+    const originEl = nodeEl.querySelector('.gnode__tile') || nodeEl;
+    const or = overlay.getBoundingClientRect();
+    const nr = originEl.getBoundingClientRect();
+    const dx = (nr.left + nr.width  / 2) - (or.left + or.width  / 2);
+    const dy = (nr.top  + nr.height / 2) - (or.top  + or.height / 2);
+    panel.style.setProperty('--dx', dx + 'px');
+    panel.style.setProperty('--dy', dy + 'px');
+  }
+
+  overlay.classList.remove('is-open');
+  overlay.setAttribute('aria-hidden', 'false');
+  void panel.offsetWidth; /* force reflow: commit the "closed" (offset) position first */
+  requestAnimationFrame(() => overlay.classList.add('is-open'));
+}
+
+function closePopup() {
+  const overlay = document.getElementById('gPopupOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('is-open');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
 /* ─── Pet project live counter ─── */
 async function loadCounter() {
   const el = document.getElementById('petCounter');
   if (!el) return;
   try {
-    const WEBHOOK = 'https://n8n.zive26.ru/webhook/job-counter';
+    const WEBHOOK = 'https://api.zive26.ru/webhook/job-counter';
     const res  = await fetch(WEBHOOK, { signal: AbortSignal.timeout(5000) });
     const data = await res.json();
     const count = data.count ?? data.total ?? null;
-    if (count !== null) el.textContent = Number(count).toLocaleString('ru-RU');
+    if (count !== null) animateCount(el, Number(count));
   } catch {
     el.textContent = '…';
   }
 }
 
-document.addEventListener('DOMContentLoaded', initGraph);
+/* Counts up from 0 to `target` – reinforces "живой узел" (live data),
+   not just a number that pops in. */
+function animateCount(el, target, duration = 900) {
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3); /* ease-out-cubic */
+    el.textContent = Math.round(target * eased).toLocaleString('ru-RU');
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ─── Decorative one-shot reveal on scroll ───
+   Purely visual – never toggled by hover/click, plays once per element.
+   Used for the skills-matrix columns and each case-section's text block. */
+function initScrollReveal(selector, threshold = 0.15) {
+  const els = document.querySelectorAll(selector);
+  if (!els.length || !('IntersectionObserver' in window)) return;
+
+  els.forEach(el => el.classList.add('is-pending'));
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold });
+
+  els.forEach(el => observer.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initGraph();
+  initScrollReveal('.skills-col');
+  initScrollReveal('.case-section__inner');
+});

@@ -3,13 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Анастасия Чернова — Автоматизация / n8n / AI</title>
+  <title>Анастасия Чернова – Автоматизация / n8n / AI</title>
   <meta name="description" content="Специалист по автоматизации, n8n-разработчик, Technical PM. Кейсы: контент-фабрика на 90 аккаунтов, AI-пайплайны, CRM-интеграции.">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Анастасия Чернова">
+  <meta property="og:title" content="Анастасия Чернова – Автоматизация / n8n / AI">
+  <meta property="og:description" content="Специалист по автоматизации, n8n-разработчик, Technical PM. Кейсы: контент-фабрика на 90 аккаунтов, AI-пайплайны, CRM-интеграции.">
+  <meta property="og:image" content="https://dossier.zive26.ru/images/og-image.png">
+  <meta property="og:url" content="https://dossier.zive26.ru/">
+  <meta property="og:locale" content="ru_RU">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Анастасия Чернова – Автоматизация / n8n / AI">
+  <meta name="twitter:description" content="Специалист по автоматизации, n8n-разработчик, Technical PM. Кейсы: контент-фабрика на 90 аккаунтов, AI-пайплайны, CRM-интеграции.">
+  <meta name="twitter:image" content="https://dossier.zive26.ru/images/og-image.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/chat-widget.css">
 </head>
 <body>
 
@@ -43,7 +62,7 @@
       Собираю на n8n воркфлоу, которые потом не разваливаются от нагрузки. Делала и простые интеграции, и пайплайн на 90 источников данных.
     </h1>
     <h1 class="hero__tagline" data-tagline="pm" hidden>
-      Руковожу технической разработкой — от первой строчки кода до продакшена. С разработчиками говорю на их языке, со сроками не подвожу.
+      Руковожу технической разработкой – от первой строчки кода до продакшена. С разработчиками говорю на их языке, со сроками не подвожу.
     </h1>
     <h1 class="hero__tagline" data-tagline="ai" hidden>
       Встраиваю LLM в рабочие процессы так, чтобы это реально экономило время, а не было демкой для презентации.
@@ -66,15 +85,53 @@
      GRAPH CANVAS
 ═══════════════════════════════════════ -->
 <section class="section-graph" id="graph">
-  <div class="section-graph__label">ГРАФ ОПЫТА — ВЫБЕРИТЕ РОЛЬ В НИЖНЕМ УЗЛЕ</div>
+  <div class="section-graph__label">ГРАФ ОПЫТА – ВЫБЕРИТЕ РОЛЬ В НИЖНЕМ УЗЛЕ</div>
   <div class="graph-wrap">
     <div class="graph-canvas" id="gCanvas">
       <svg class="graph-svg" id="gSvg" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="gcols">
+        <div class="gcue gcue--down gcols__nodes-cue">
+          <span class="gcue__label">Нажимай</span>
+          <span class="gcue__arrow">↓</span>
+        </div>
         <div class="gcol" id="gcol-trigger"></div>
         <div class="gcol" id="gcol-a"></div>
         <div class="gcol" id="gcol-b"></div>
         <div class="gcol" id="gcol-service"></div>
+      </div>
+
+      <div class="gpopup-overlay" id="gPopupOverlay" aria-hidden="true">
+        <div class="gpopup" id="gPopup">
+          <div class="gpopup__resize-handle"><span></span><span></span><span></span></div>
+          <div class="gpopup__titlebar">
+            <div class="gpopup__icon-tile"><span class="gpopup__icon" id="gPopupIcon"></span></div>
+            <h3 class="gpopup__title" id="gPopupTitle"></h3>
+            <button class="gpopup__close" id="gPopupClose" aria-label="Закрыть">✕</button>
+          </div>
+
+          <div class="gpopup__panels">
+            <div class="gpopup__panel gpopup__panel--input">
+              <div class="gpopup__panel-head">Input</div>
+              <p class="gpopup__meta" id="gPopupMeta"></p>
+              <div class="gpopup__inputs" id="gPopupInputs"></div>
+            </div>
+
+            <div class="gpopup__panel gpopup__panel--params">
+              <div class="gpopup__tabs">
+                <span class="gpopup__tab gpopup__tab--active">Parameters</span>
+                <span class="gpopup__tab">Settings</span>
+              </div>
+              <span class="gpopup__cat" id="gPopupCat"></span>
+              <p class="gpopup__teaser" id="gPopupTeaser"></p>
+              <a class="gpopup__cta" id="gPopupCta" href="#">Полный кейс →</a>
+            </div>
+
+            <div class="gpopup__panel gpopup__panel--output">
+              <div class="gpopup__panel-head">Output <span class="gpopup__count" id="gPopupCount"></span></div>
+              <pre class="gpopup__json" id="gPopupJson"></pre>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -97,12 +154,12 @@
       <p class="case-section__meta">Соло-разработчик · 6 месяцев</p>
       <p>
         Единолично разрабатывала и запускала вебинарные воронки и интерактивные форматы
-        для вовлечения аудитории — самый ранний и самый универсальный по набору задач
+        для вовлечения аудитории – самый ранний и самый универсальный по набору задач
         этап, до перехода в техлиды.
       </p>
       <ul>
         <li>Создала порядка 20 ботов разной сложности, включая вебинарные воронки на Salebot</li>
-        <li>Разработала игровые Telegram-квесты — вызвали заметный интерес в профессиональном сообществе, неоднократно замечала попытки копирования механик</li>
+        <li>Разработала игровые Telegram-квесты – вызвали заметный интерес в профессиональном сообществе, неоднократно замечала попытки копирования механик</li>
         <li>Провела 5 вебинаров: техническая организация трансляций (Bizon365 + OBS Studio)</li>
         <li>Разработала методологию сбора аналитики из чат-бот воронок</li>
       </ul>
@@ -122,14 +179,14 @@
       <p>
         Руководила технической стороной разработки чат-ботов в команде 3–5 человек,
         часто работала руками наравне с командой. Проекты строились на конструкторе Salebot
-        (Telegram, VK и другие мессенджеры), но регулярно выходили за его рамки —
+        (Telegram, VK и другие мессенджеры), но регулярно выходили за его рамки –
         кастомные интеграции через API и n8n там, где возможностей конструктора не хватало.
       </p>
       <ul>
         <li>Запущено порядка 150 ботов для ~50 клиентов</li>
         <li>Технически объёмные интеграции: CRM, ChatGPT, Telegram Personal, платёжные системы</li>
         <li>Кастомная разработка через API/n8n сверх стандартных возможностей Salebot</li>
-        <li>Аналитика прохождения воронки — отслеживала, где клиенты технически «застревают», инициировала исправления</li>
+        <li>Аналитика прохождения воронки – отслеживала, где клиенты технически «застревают», инициировала исправления</li>
         <li>Кросс-функциональное взаимодействие: маркетологи, дизайнеры, ОКК</li>
         <li>Методология ведения проектной документации, поиск и онбординг новых сотрудников</li>
       </ul>
@@ -155,18 +212,18 @@
         <li>Настроила внешние интеграции в amoCRM и Битрикс24 для отслеживания рекламных кампаний</li>
         <li>Настроила 4 воронки под разные источники трафика</li>
         <li>Связала интеграции с Tilda для сквозного отслеживания пути лида</li>
-        <li>Автоматизировала сбор аналитики через n8n — заменила ручной сбор данных полностью автоматическим</li>
+        <li>Автоматизировала сбор аналитики через n8n – заменила ручной сбор данных полностью автоматическим</li>
         <li>Настроила телефонию (Сипуни, Мегафон), инициировала переход на Манго</li>
       </ul>
 
       <figure class="case-video">
         <video autoplay loop muted playsinline>
-          <source src="images/kling_20260713_VIDEO_Macro_shot_5277_0.mp4" type="video/mp4">
+          <source src="images/kling__wwwm.mp4" type="video/mp4">
         </video>
       </figure>
 
       <div class="case-section__result">
-        Компания получила точные данные по количеству и стоимости лидов в разрезе каждого из ~10 подрядчиков — то, что раньше собиралось вручную и с задержкой, стало доступно оперативно и без ручного труда.
+        Компания получила точные данные по количеству и стоимости лидов в разрезе каждого из ~10 подрядчиков – то, что раньше собиралось вручную и с задержкой, стало доступно оперативно и без ручного труда.
       </div>
     </div>
   </section>
@@ -190,7 +247,7 @@
       <figure class="case-fig">
         <img src="images/diagram-4-org-structure.svg"
              alt="Оргструктура контент-фабрики: техлид руководит цехом разработки, операторами фермы и аналитикой">
-        <figcaption>Структура работы — три цеха под единым техлидом</figcaption>
+        <figcaption>Структура работы – три цеха под единым техлидом</figcaption>
       </figure>
 
       <!-- Data & AI -->
@@ -224,19 +281,19 @@
 
       <figure class="case-fig">
         <img src="images/diagram-3-phone-farm.svg"
-             alt="Телефонная ферма: было — разрозненное оборудование и ручная работа; стало — 90 устройств, единая методология, 10-кратное ускорение">
-        <figcaption>Телефонная ферма — до и после внедрения методологии</figcaption>
+             alt="Телефонная ферма: было – разрозненное оборудование и ручная работа; стало – 90 устройств, единая методология, 10-кратное ускорение">
+        <figcaption>Телефонная ферма – до и после внедрения методологии</figcaption>
       </figure>
 
       <!-- Automation + Monitoring -->
       <ul>
-        <li>Инициировала автоматизацию публикации и прогрева аккаунтов — начала разработку на Python, передала команде из 3–5 разработчиков; на момент завершения: MVP на 4 аккаунтах</li>
+        <li>Инициировала автоматизацию публикации и прогрева аккаунтов – начала разработку на Python, передала команде из 3–5 разработчиков; на момент завершения: MVP на 4 аккаунтах</li>
         <li>Веб-приложения в Telegram для сотрудников, Telegram-бот мониторинга инцидентов</li>
       </ul>
 
       <figure class="case-fig case-fig--centered">
         <img src="images/diagram-5-incident-bot-mockup.svg"
-             alt="Мокап Telegram-бота мониторинга: карточки инцидентов с цветовой маркировкой — критично, внимание, решено">
+             alt="Мокап Telegram-бота мониторинга: карточки инцидентов с цветовой маркировкой – критично, внимание, решено">
         <figcaption>Telegram-бот мониторинга инцидентов контент-фабрики</figcaption>
       </figure>
 
@@ -258,18 +315,18 @@
       <p class="case-section__meta">7+ лет · Онлайн-школа с аудиторией 5 млн подписчиков</p>
       <p>
         Отвечала за техническую инфраструктуру онлайн-школы: автоворонки, вебинары,
-        аналитику и приём платежей — в условиях больших пиковых нагрузок и постоянно
+        аналитику и приём платежей – в условиях больших пиковых нагрузок и постоянно
         растущей базы клиентов (свыше 800 тысяч на пике).
       </p>
       <ul>
         <li>Собрала множество автоворонок и интеграций на Salebot за годы работы (Tilda, Битрикс24, Bizon365, GetCourse)</li>
-        <li>Организовала и обеспечивала техническую устойчивость живых и автовебинаров, включая марафоны: пик — 39 000+ регистраций, 16 500 одновременных зрителей</li>
+        <li>Организовала и обеспечивала техническую устойчивость живых и автовебинаров, включая марафоны: пик – 39 000+ регистраций, 16 500 одновременных зрителей</li>
         <li>Создала и поддерживала сводную аналитику для отделов продаж, финансов и производства</li>
         <li>Настроила СМС-рассылки и автодозвоны</li>
         <li>Участвовала в разработке модуля учёта платежей в CRM компании</li>
       </ul>
       <p>
-        <strong style="color: var(--text); font-weight: 600;">Дополнительный опыт:</strong> в разные периоды также выполняла функции финменеджера, менеджера по продажам и куратора курсов — что дало редкое для технического специалиста понимание всех сторон бизнеса онлайн-школы.
+        <strong style="color: var(--text); font-weight: 600;">Дополнительный опыт:</strong> в разные периоды также выполняла функции финменеджера, менеджера по продажам и куратора курсов – что дало редкое для технического специалиста понимание всех сторон бизнеса онлайн-школы.
       </p>
     </div>
   </section>
@@ -285,17 +342,17 @@
       <h2>Лендинг + lead-инфраструктура</h2>
       <p class="case-section__meta">Full-stack разработка · AI-assisted · B2B SaaS · под NDA</p>
       <p>
-        Заказчик — B2B SaaS-компания — заказал одностраничный лендинг: собрать по дизайну
+        Заказчик – B2B SaaS-компания – заказал одностраничный лендинг: собрать по дизайну
         из Figma, довести до продакшена и связать все заявки с CRM. Проект вырос от вёрстки
         до полноценной инфраструктуры сбора и маршрутизации лидов.
       </p>
       <ul>
-        <li><strong style="color:var(--text)">Фронтенд:</strong> одностраничный лендинг по макету — hero, блок продукта, преимущества, тарифы с интерактивным калькулятором, FAQ. Пиксель-перфект под три брейкпоинта</li>
-        <li><strong style="color:var(--text)">Производительность:</strong> Lighthouse мобайл с 63 до ~85 — WebP/AVIF, адаптивные источники, предзагрузка hero, устранение forced reflow</li>
+        <li><strong style="color:var(--text)">Фронтенд:</strong> одностраничный лендинг по макету – hero, блок продукта, преимущества, тарифы с интерактивным калькулятором, FAQ. Пиксель-перфект под три брейкпоинта</li>
+        <li><strong style="color:var(--text)">Производительность:</strong> Lighthouse мобайл с 63 до ~85 – WebP/AVIF, адаптивные источники, предзагрузка hero, устранение forced reflow</li>
         <li><strong style="color:var(--text)">Lead-инфраструктура:</strong> форма → CRM (сделка + контакт с дедупликацией, UTM-метки, ответственный, дубль в мессенджер продаж)</li>
-        <li><strong style="color:var(--text)">Чат → CRM:</strong> собственный бесплатный «мост» вместо платного маркетплейс-приложения — вебхук-сервис вместо подписки</li>
+        <li><strong style="color:var(--text)">Чат → CRM:</strong> собственный бесплатный «мост» вместо платного маркетплейс-приложения – вебхук-сервис вместо подписки</li>
         <li><strong style="color:var(--text)">Аналитика:</strong> веб-аналитика, A/B-инструмент, рекламный пиксель</li>
-        <li><strong style="color:var(--text)">DevOps:</strong> мультиплатформенный деплой — два git-remote, staging-превью и продакшен через self-hosted PaaS на Docker</li>
+        <li><strong style="color:var(--text)">DevOps:</strong> мультиплатформенный деплой – два git-remote, staging-превью и продакшен через self-hosted PaaS на Docker</li>
       </ul>
     </div>
   </section>
@@ -312,42 +369,42 @@
       <p class="case-section__meta">Инженер интеграций · n8n · amoCRM · Bitrix24 · PostgreSQL · Directus · под NDA</p>
 
       <p>
-        Лиды квалифицируются в одной CRM, а принятые — передаются в другую, где идёт работа
-        с клубом и продажи. Задача — найти и устранить «тихие» баги в уже существующей
+        Лиды квалифицируются в одной CRM, а принятые – передаются в другую, где идёт работа
+        с клубом и продажи. Задача – найти и устранить «тихие» баги в уже существующей
         двусторонней синхронизации между CRM. Разработка велась в связке с AI-инструментами;
-        диагностика первопричин, логика маппинга и финальная доводка — ручная инженерная работа.
+        диагностика первопричин, логика маппинга и финальная доводка – ручная инженерная работа.
       </p>
 
       <p>
-        Заказчик и детали скрыты по NDA. Технологический стек и методы приведены как есть —
+        Заказчик и детали скрыты по NDA. Технологический стек и методы приведены как есть –
         они и составляют суть компетенций.
       </p>
 
       <h3 style="font-size:16px; font-weight:600; color:var(--text); margin:28px 0 12px;">Контекст и задача</h3>
       <p>
         Система работает по схеме: лиды поступают в amoCRM, где менеджеры их квалифицируют.
-        Принятые лиды — те, кто принял оффер — должны автоматически создаваться в Bitrix24,
+        Принятые лиды – те, кто принял оффер – должны автоматически создаваться в Bitrix24,
         где ведётся вся дальнейшая работа с клубом и продажи. Синхронизация двусторонняя:
         изменения статусов и ключевых полей должны отражаться в обеих системах.
       </p>
       <p>
-        Проблема: часть данных терялась или дублировалась, но без явных ошибок — воркфлоу
+        Проблема: часть данных терялась или дублировалась, но без явных ошибок – воркфлоу
         отрабатывали штатно, логи были чистые. «Тихие» баги: данные не приходили туда, куда
         должны были, или приходили не те.
       </p>
 
       <h3 style="font-size:16px; font-weight:600; color:var(--text); margin:28px 0 12px;">Что сделала</h3>
       <ul>
-        <li>Проаудировала существующую схему синхронизации в n8n — восстановила актуальную карту потоков данных между amoCRM, n8n и Bitrix24</li>
+        <li>Проаудировала существующую схему синхронизации в n8n – восстановила актуальную карту потоков данных между amoCRM, n8n и Bitrix24</li>
         <li>Изолировала проблемные сценарии: через тестовые лиды воспроизвела каждый баг в управляемых условиях, не ломая боевой поток</li>
-        <li>Диагностировала расхождения в маппинге полей: часть полей amoCRM не имела однозначного соответствия в Bitrix24 — справочники были несинхронизированы</li>
+        <li>Диагностировала расхождения в маппинге полей: часть полей amoCRM не имела однозначного соответствия в Bitrix24 – справочники были несинхронизированы</li>
         <li>Использовала Directus как слой маппинга справочников: создала таблицу соответствий идентификаторов между системами, которую воркфлоу n8n читает динамически вместо хардкода</li>
-        <li>Устранила дублирование: настроила дедупликацию через PostgreSQL — при повторном триггере система проверяет, существует ли уже запись с таким ID, прежде чем создавать новую</li>
+        <li>Устранила дублирование: настроила дедупликацию через PostgreSQL – при повторном триггере система проверяет, существует ли уже запись с таким ID, прежде чем создавать новую</li>
         <li>Исправила потерю данных при обратной синхронизации (Bitrix24 → amoCRM): часть webhook-событий не обрабатывалась из-за несовпадения ожидаемой структуры payload</li>
       </ul>
 
       <div class="case-section__result" style="border-left-color: var(--c-coral);">
-        Синхронизация стала предсказуемой: данные доходят до нужной системы, дубли не создаются, потери устранены. Маппинг справочников вынесен в отдельный управляемый слой — не нужно лезть в код при изменении структуры CRM.
+        Синхронизация стала предсказуемой: данные доходят до нужной системы, дубли не создаются, потери устранены. Маппинг справочников вынесен в отдельный управляемый слой – не нужно лезть в код при изменении структуры CRM.
       </div>
 
       <p style="font-size: 13px; color: var(--text-dim); margin-top: 8px;">
@@ -370,7 +427,7 @@
         Серия инженерных задач для корпоративного заказчика: расследование сбоев, сквозные
         интеграции между headless-CMS, трекером задач и платформой автоматизации, скриптовые
         доработки и восстановление потерянных данных. Диагностика первопричин, доказательная
-        база и решения по каждому кейсу — ручная инженерная работа.
+        база и решения по каждому кейсу – ручная инженерная работа.
       </p>
 
       <div class="case-section__cards">
@@ -380,9 +437,9 @@
             <div class="case-card__title">Root-cause · «Командный отчёт по учёту времени падал без единой записи в логах»</div>
             <span class="badge badge--green">Решено</span>
           </div>
-          <p><strong style="color:var(--text)">Проблема:</strong> сводный отчёт падал с общей ошибкой на части периодов, сбой не попадал в лог даже на уровне DEBUG — плагин проглатывал исключение.</p>
-          <p><strong style="color:var(--text)">Причина:</strong> циклическая иерархия — две задачи ссылались друг на друга как «эпик» и «родитель». Построение дерева зацикливалось на этой паре.</p>
-          <p><strong style="color:var(--text)">Итог:</strong> разорвал цикл, просканировал остальные задачи на похожие аномалии. Отчёт заработал за все периоды.</p>
+          <p><strong style="color:var(--text)">Проблема:</strong> сводный отчёт падал с общей ошибкой на части периодов, сбой не попадал в лог даже на уровне DEBUG – плагин проглатывал исключение.</p>
+          <p><strong style="color:var(--text)">Причина:</strong> циклическая иерархия – две задачи ссылались друг на друга как «эпик» и «родитель». Построение дерева зацикливалось на этой паре.</p>
+          <p><strong style="color:var(--text)">Итог:</strong> разорвала цикл, просканировала остальные задачи на похожие аномалии. Отчёт заработал за все периоды.</p>
           <div class="case-card__tags">
             <span class="tag">анализ логов</span><span class="tag">бисекция</span><span class="tag">API трекера</span><span class="tag">root-cause</span>
           </div>
@@ -394,7 +451,7 @@
             <span class="badge badge--green">Решено</span>
           </div>
           <p><strong style="color:var(--text)">Задача:</strong> два бизнес-поля из headless-CMS должны автоматически появляться в задачах трекера при создании и изменении.</p>
-          <p><strong style="color:var(--text)">Работа:</strong> доработал цепочку webhook CMS → n8n → REST трекера, выровнял справочники. Написал разовый REST-скрипт и заполнил поля у ~350 исторических задач.</p>
+          <p><strong style="color:var(--text)">Работа:</strong> доработала цепочку webhook CMS → n8n → REST трекера, выровняла справочники. Написала разовый REST-скрипт и заполнила поля у ~350 исторических задач.</p>
           <div class="case-card__tags">
             <span class="tag">n8n</span><span class="tag">Directus</span><span class="tag">REST API</span><span class="tag">миграция данных</span><span class="tag">маппинг справочников</span>
           </div>
@@ -405,8 +462,8 @@
             <div class="case-card__title">Автоматизация · «Автозаполнение полей дефекта из связанной задачи»</div>
             <span class="badge badge--green">Решено</span>
           </div>
-          <p><strong style="color:var(--text)">Решение:</strong> Groovy-листенер в скриптовом движке трекера — вместо хрупкой встроенной автоматизации, которая до этого только ломала данные. Обошёл перезапись формой через отложенное выполнение в отдельном потоке.</p>
-          <p><strong style="color:var(--text)">Бонус:</strong> выяснил, что старое неверно настроенное правило затёрло поля у 6 реальных задач, и восстановил значения из истории изменений через REST.</p>
+          <p><strong style="color:var(--text)">Решение:</strong> Groovy-листенер в скриптовом движке трекера – вместо хрупкой встроенной автоматизации, которая до этого только ломала данные. Обошла перезапись формой через отложенное выполнение в отдельном потоке.</p>
+          <p><strong style="color:var(--text)">Бонус:</strong> выяснила, что старое неверно настроенное правило затёрло поля у 6 реальных задач, и восстановила значения из истории изменений через REST.</p>
           <div class="case-card__tags">
             <span class="tag">Groovy</span><span class="tag">ScriptRunner</span><span class="tag">Java API</span><span class="tag">многопоточность</span><span class="tag">changelog</span>
           </div>
@@ -417,8 +474,8 @@
             <div class="case-card__title">Reverse-engineering · «Правила-призраки: поля самопроизвольно очищались»</div>
             <span class="badge badge--green">Решено</span>
           </div>
-          <p><strong style="color:var(--text)">Причина:</strong> несколько правил без условия по типу задачи копировали значения «из родителя», которого у дефектов нет — и вместо копирования очищали поля.</p>
-          <p><strong style="color:var(--text)">Итог:</strong> вышел на недокументированный REST-эндпоинт, выгрузил все правила проекта программно. Добавил недостающие условия, отключил дубликаты.</p>
+          <p><strong style="color:var(--text)">Причина:</strong> несколько правил без условия по типу задачи копировали значения «из родителя», которого у дефектов нет – и вместо копирования очищали поля.</p>
+          <p><strong style="color:var(--text)">Итог:</strong> вышла на недокументированный REST-эндпоинт, выгрузила все правила проекта программно. Добавила недостающие условия, отключила дубликаты.</p>
           <div class="case-card__tags">
             <span class="tag">REST-разведка</span><span class="tag">changelog</span><span class="tag">Automation rules</span><span class="tag">системная диагностика</span>
           </div>
@@ -426,11 +483,11 @@
 
         <div class="case-card">
           <div class="case-card__header">
-            <div class="case-card__title">Анализ · «Перевод свободнотекстового поля в типизированное — под фильтры и авто-отчёты»</div>
+            <div class="case-card__title">Анализ · «Перевод свободнотекстового поля в типизированное – под фильтры и авто-отчёты»</div>
             <span class="badge badge--neutral">Спланировано</span>
           </div>
-          <p><strong style="color:var(--text)">Работа:</strong> собрал требования, проверил объём миграции (~170 значений), выявил неочевидные риски: неоднозначный маппинг и конфликт обязательности поля с отложенным автозаполнением.</p>
-          <p><strong style="color:var(--text)">Результат:</strong> декомпозировал на подзадачи, дал честную оценку с разделением «чистых трудозатрат» и «срока с буфером на согласования».</p>
+          <p><strong style="color:var(--text)">Работа:</strong> собрала требования, проверила объём миграции (~170 значений), выявила неочевидные риски: неоднозначный маппинг и конфликт обязательности поля с отложенным автозаполнением.</p>
+          <p><strong style="color:var(--text)">Результат:</strong> декомпозировала на подзадачи, дала честную оценку с разделением «чистых трудозатрат» и «срока с буфером на согласования».</p>
           <div class="case-card__tags">
             <span class="tag">анализ требований</span><span class="tag">оценка</span><span class="tag">риск-менеджмент</span><span class="tag">миграция схемы</span>
           </div>
@@ -457,27 +514,27 @@
       <p class="case-section__meta">Фриланс · 2026 · PostgreSQL · Apache Superset</p>
       <p>
         Для клиента в сфере услуг с выездными сделками построила аналитическую систему
-        учёта воронки продаж — до этого данные велись вручную в таблицах, без единой
+        учёта воронки продаж – до этого данные велись вручную в таблицах, без единой
         картины по конверсии на каждом этапе.
       </p>
       <ul>
         <li>Спроектировала и настроила PostgreSQL как единое хранилище данных воронки</li>
-        <li>Создала веб-форму для менеджеров — простой ежедневный ввод данных без обращения к базе напрямую</li>
+        <li>Создала веб-форму для менеджеров – простой ежедневный ввод данных без обращения к базе напрямую</li>
         <li>Построила дашборд в Apache Superset: KPI-карточки, помесячная динамика, конверсия на каждом этапе воронки с условным форматированием (план/факт, отклонения)</li>
       </ul>
 
       <div class="case-fig-grid case-fig-grid--3">
         <figure>
-          <img src="images/dashboard_1_blurred.png" alt="Дашборд Apache Superset — KPI-карточки и сводные показатели воронки">
+          <img src="images/dashboard_1_blurred.png" alt="Дашборд Apache Superset – KPI-карточки и сводные показатели воронки">
           <figcaption>KPI и сводные показатели</figcaption>
         </figure>
         <figure>
-          <img src="images/dashboard_2_blurred.png" alt="Дашборд Apache Superset — помесячная динамика воронки продаж">
+          <img src="images/dashboard_2_blurred.png" alt="Дашборд Apache Superset – помесячная динамика воронки продаж">
           <figcaption>Помесячная динамика</figcaption>
         </figure>
         <figure>
           <img src="images/dashboard_3_chart.png" alt="График конверсии по этапам воронки с условным форматированием план/факт">
-          <figcaption>Конверсия по этапам — план/факт</figcaption>
+          <figcaption>Конверсия по этапам – план/факт</figcaption>
         </figure>
       </div>
 
@@ -500,8 +557,8 @@
       <p>
         Личная система для собственного поиска работы: n8n-воркфлоу парсит email-дайджесты HH.ru
         (Gmail Trigger → Code parsing → Google Sheets с дедупликацией по vacancyId), плюс
-        отдельный воркфлоу мониторинга тематических Telegram-каналов — прямой скрапинг
-        t.me/s/, минуя нестабильный RSSHub — с уведомлениями по приоритетным вакансиям.
+        отдельный воркфлоу мониторинга тематических Telegram-каналов – прямой скрапинг
+        t.me/s/, минуя нестабильный RSSHub – с уведомлениями по приоритетным вакансиям.
       </p>
 
       <div class="case-fig-grid case-fig-grid--2">
@@ -519,7 +576,7 @@
 
       <p>
         Живой счётчик в графе выше показывает реальное число вакансий, обработанных
-        ботом — данные подтягиваются через вебхук в n8n (ключи Google Sheets
+        ботом – данные подтягиваются через вебхук в n8n (ключи Google Sheets
         остаются на сервере, в браузер не уходят).
       </p>
     </div>
@@ -550,7 +607,7 @@
       <div class="skills-col">
         <div class="skills-col__heading">Technical PM</div>
         <ul>
-          <li>Команда 3–5 человек — найм, постановка задач, делегирование</li>
+          <li>Команда 3–5 человек – найм, постановка задач, делегирование</li>
           <li>Ревью архитектурных решений</li>
           <li>Высоконагруженные процессы (пиковые события на десятки тысяч пользователей)</li>
           <li>Умение выбрать между «сделать быстро» и «сделать правильно»</li>
@@ -562,7 +619,7 @@
         <div class="skills-col__heading">AI / LLM Integration</div>
         <ul>
           <li>Claude API, MCP-интеграции, Gemini</li>
-          <li>AI-ассистированная разработка — архитектура и продакшен-дебаг</li>
+          <li>AI-ассистированная разработка – архитектура и продакшен-дебаг</li>
           <li>Пайплайны AI-аналитики: конкурентная разведка, автоотчётность</li>
           <li>FAQ + LLM-fallback для чат-виджетов</li>
           <li>Apache Superset, аналитические дашборды</li>
@@ -584,18 +641,18 @@
         В автоматизации больше 10 лет. Начинала с интеграций для онлайн-школы с
         многомиллионной аудиторией, потом дошла до руководства командой разработки
         в IT-компании. За это время прошла через Salebot, n8n, PostgreSQL, Superset,
-        кучу CRM — а последний год плотно работаю с LLM: от AI-аналитики конкурентов
+        кучу CRM – а последний год плотно работаю с LLM: от AI-аналитики конкурентов
         до кастомных отчётов через MCP.
       </p>
       <p>
-        Мне без разницы, no-code это или прямой API — лишь бы работало под реальной
+        Мне без разницы, no-code это или прямой API – лишь бы работало под реальной
         нагрузкой и его можно было передать команде, не объясняя полдня, что тут
-        происходит. Сейчас на фрилансе, в том числе с AI-ассистированной разработкой —
+        происходит. Сейчас на фрилансе, в том числе с AI-ассистированной разработкой –
         сама веду архитектуру и слежу, чтобы код дошёл до продакшена, а не остался
         красивым черновиком.
       </p>
       <p style="color: var(--text-dim);">
-        База — Казань. Рассматриваю удалёнку, офис или гибрид. Официальное трудоустройство: трудовой договор или ГПХ, оплата в рублях.
+        База – Казань. Рассматриваю удалёнку, офис или гибрид. Официальное трудоустройство: трудовой договор или ГПХ, оплата в рублях.
       </p>
     </div>
   </div>
@@ -608,17 +665,139 @@
   <div class="container">
     <p class="section-heading">Контакты</p>
     <p>
-      Если вы рекрутёр или основатель — напишите напрямую. Отвечаю быстро, без «вышлите резюме в HR-форму».
+      Если вы рекрутёр или основатель – напишите напрямую, отвечаю быстро.
     </p>
-    <a class="btn-primary" href="https://t.me/YOUR_TELEGRAM" target="_blank" rel="noopener">
+    <a class="btn-primary btn-telegram" href="https://telegram.me/Chernova_Anastasija" target="_blank" rel="noopener">
       Написать в Telegram →
     </a>
     <div class="contacts__links">
-      <a href="mailto:YOUR_EMAIL@example.com">Email</a>
+      <a class="btn-contact btn-contact--email" href="mailto:squirrelloft@gmail.com">Email</a>
+      <a class="btn-contact btn-contact--max" href="https://max.ru/u/f9LHodD0cOK1NPkG-7vBCetw3SEjqjQtcG58Xc1hgvtEdRplbsYcOHpfa3w" target="_blank" rel="noopener">MAX</a>
     </div>
   </div>
 </section>
 
 <script src="js/graph.js"></script>
+
+<!-- ═══════════════════════════════════════
+     CHAT WIDGET
+     Styles: css/chat-widget.css
+═══════════════════════════════════════ -->
+<button id="cw-launcher" aria-label="Открыть чат">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.4 1.05 4.58 2.78 6.2L4 22l5.09-1.5c.93.27 1.9.41 2.91.41 5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
+</button>
+
+<div id="cw-panel">
+  <div id="cw-header">
+    <div>
+      <div id="cw-header-title">Спроси про мой опыт</div>
+      <div id="cw-header-sub">Отвечаю от своего имени, обычно за пару секунд</div>
+    </div>
+    <button id="cw-close" aria-label="Закрыть">✕</button>
+  </div>
+  <div id="cw-messages"></div>
+  <div id="cw-input-row">
+    <input id="cw-input" type="text" placeholder="Например: какой у тебя стек?" maxlength="300" />
+    <button id="cw-send" aria-label="Отправить">→</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var WEBHOOK_URL = 'https://api.zive26.ru/webhook/chat-widget';
+
+  var launcher = document.getElementById('cw-launcher');
+  var panel = document.getElementById('cw-panel');
+  var closeBtn = document.getElementById('cw-close');
+  var messages = document.getElementById('cw-messages');
+  var input = document.getElementById('cw-input');
+  var sendBtn = document.getElementById('cw-send');
+  var opened = false;
+
+  // Экранируем HTML-спецсимволы, чтобы ответ модели не мог быть
+  // интерпретирован как разметка (защита от prompt injection в LLM-ответе).
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // После экранирования отдельно находим URL и оборачиваем именно их
+  // в <a> — остальной текст остаётся обычным текстом.
+  function linkify(escapedText) {
+    var urlPattern = /(https?:\/\/[^\s<]+)/g;
+    return escapedText.replace(urlPattern, function (url) {
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + '</a>';
+    });
+  }
+
+  function addMessage(text, who) {
+    var el = document.createElement('div');
+    el.className = 'cw-msg cw-msg-' + who;
+    if (who === 'bot') {
+      el.innerHTML = linkify(escapeHtml(text));
+    } else {
+      el.textContent = text; // сообщения пользователя — всегда как есть, без ссылок
+    }
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+    return el;
+  }
+
+  function toggle() {
+    opened = !opened;
+    panel.classList.toggle('cw-open', opened);
+    if (opened && messages.children.length === 0) {
+      addMessage('Привет! Спроси меня про стек, опыт, формат работы – отвечу как есть.', 'bot');
+    }
+    if (opened) input.focus();
+  }
+
+  launcher.addEventListener('click', toggle);
+  closeBtn.addEventListener('click', toggle);
+
+  async function send() {
+    var question = input.value.trim();
+    if (!question) return;
+
+    addMessage(question, 'user');
+    input.value = '';
+    sendBtn.disabled = true;
+
+    var typingEl = document.createElement('div');
+    typingEl.className = 'cw-msg cw-msg-typing';
+    typingEl.textContent = 'печатает…';
+    messages.appendChild(typingEl);
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+      var res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: question })
+      });
+      var data = await res.json();
+      typingEl.remove();
+
+      if (data && data.answer) {
+        addMessage(data.answer, 'bot');
+      } else {
+        addMessage('Не удалось получить ответ. Напиши мне напрямую в Telegram.', 'bot');
+      }
+    } catch (err) {
+      typingEl.remove();
+      addMessage('Что-то пошло не так. Попробуй ещё раз или напиши в Telegram.', 'bot');
+    } finally {
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  }
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') send();
+  });
+})();
+</script>
 </body>
 </html>
