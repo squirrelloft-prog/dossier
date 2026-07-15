@@ -367,8 +367,10 @@ section { position: relative; }
   .gcols { grid-template-columns: 200px 260px 260px 132px; gap: 20px; padding: 22px 20px 26px; }
   #gcol-a, #gcol-b { grid-template-columns: repeat(2, 120px); column-gap: 16px; }
 }
-@media (max-width: 640px) {
-  /* Below this width the graph stops being a grid altogether and becomes
+@media (max-width: 1024px) {
+  /* Below this width (covers tablet portrait/landscape too — iPad
+     landscape is exactly 1024px, and the reduced grid above still
+     doesn't fit it) the graph stops being a grid altogether and becomes
      a plain vertical stack — the grid-row/column bookkeeping above was
      never reset here, so trigger/cases/service all landed in the same
      cell and rendered on top of each other. A flex column with explicit
@@ -1000,10 +1002,11 @@ section { position: relative; }
   .gpopup__panel--output { display: none; }
 }
 
-@media (max-width: 640px) {
-  /* .gpopup-overlay is `position: absolute` inside .graph-canvas so it
-     can dim just the graph, not the whole page. That canvas is very
-     tall on mobile (nodes stack in one column), and centering the
+@media (max-width: 1024px) {
+  /* Same range as the graph's flex-stack above: .gpopup-overlay is
+     `position: absolute` inside .graph-canvas so it can dim just the
+     graph, not the whole page. That canvas is very tall once nodes
+     stack in one column (mobile *and* tablet now), and centering the
      popup within its *full* height means a node clicked further down
      the scroll can open a popup far above/below the visible viewport.
      Pin it to the actual viewport instead, anchored near the top. */

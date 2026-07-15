@@ -9,7 +9,7 @@ const ROLE_LABELS = {
 const COL = {
   trigger:  'gcol-trigger',
   c1: 'gcol-a', c2: 'gcol-a', c3: 'gcol-a', c4: 'gcol-a', c5: 'gcol-a',
-  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b',
+  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b', c11: 'gcol-b',
   skills: 'gcol-service', about: 'gcol-service', contacts: 'gcol-service',
 };
 
@@ -115,6 +115,15 @@ const NODES = [
     stats: 'n8n · Gmail · Google Sheets · Telegram',
     anchor: 'case-9',
   },
+  {
+    id: 'c11', type: 'case', cat: 'purple', roles: ['ai', 'n8n'],
+    cat_label: 'Pet-проект',
+    title: 'Портфолио-сайт: node-graph + AI-чат',
+    meta: 'Личный проект · 2026',
+    teaser: 'Сам этот сайт – рабочий пример: граф-канвас на чистом JS, ролевые ссылки под три резюме и AI-чат, который отвечает на вопросы о моём опыте.',
+    stats: 'Vanilla JS · 3 ролевые ссылки · n8n + Claude Haiku',
+    anchor: 'case-11',
+  },
 
   /* service column */
   {
@@ -146,6 +155,7 @@ const EDGES = [
   { from: 'trigger', to: 'c8',  cat: 'coral',  roles: ['pm', 'ai'] },
   { from: 'trigger', to: 'c10', cat: 'coral',  roles: ['n8n', 'ai'] },
   { from: 'trigger', to: 'c9',  cat: 'purple', roles: ['n8n', 'ai'], always: true },
+  { from: 'trigger', to: 'c11', cat: 'purple', roles: ['ai', 'n8n'] },
   { from: 'trigger', to: 'skills',   cat: 'gray', roles: [] },
   { from: 'trigger', to: 'about',    cat: 'gray', roles: [] },
   { from: 'trigger', to: 'contacts', cat: 'gray', roles: [] },
@@ -528,9 +538,22 @@ function initMobileNav() {
   });
 }
 
+/* ─── Direct role links: ?role=n8n / ?role=pm / ?role=ai ───
+   Reuses selectRole() as-is — no duplicated switching logic, no
+   parallel class/attribute system. Must run after initGraph(), since
+   selectRole() looks up DOM nodes (role buttons, case-node roles)
+   that initGraph() creates. Invalid/missing param → no-op, default
+   view, exactly like today. */
+function initRoleFromURL() {
+  const validRoles = ['n8n', 'pm', 'ai'];
+  const role = new URLSearchParams(window.location.search).get('role');
+  if (validRoles.includes(role)) selectRole(role);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initGraph();
   initScrollReveal('.skills-col');
   initScrollReveal('.case-section__inner');
   initMobileNav();
+  initRoleFromURL();
 });
