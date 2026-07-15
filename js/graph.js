@@ -168,6 +168,36 @@ const NODES = [
   },
 ];
 
+/* ─── "Какие боли я решаю" – reacts to the same role state as the graph,
+   see selectRole()'s call to updatePainPoints() at the end. ─── */
+const PAIN_POINTS_DEFAULT = 'Выбери роль выше, чтобы увидеть, какие задачи я обычно закрываю';
+const PAIN_POINTS = {
+  n8n: [
+    'Процессы держатся на ручном труде людей вместо автоматики – теряете время и деньги на рутину, которую можно снять с человека за недели, не за месяцы разработки.',
+    'Системы (CRM, соцсети, платежи) не разговаривают друг с другом – данные приходится сверять руками, ошибки копятся.',
+    'Конструкторы вроде Salebot упираются в потолок возможностей – нужен кто-то, кто выйдет за рамки no-code, когда стандартных блоков не хватает.',
+  ],
+  pm: [
+    'Есть техническая команда, но нет человека, который переводит бизнес-задачи в понятные технические и следит, чтобы не тонули в перфекционизме или хаосе.',
+    'Процессы растут быстрее, чем инфраструктура – то, что работало на 10 пользователей, разваливается на 10 000.',
+    'Нужен руководитель, который сам разбирается в коде, а не просто передаёт задачи разработчикам и ждёт отчёта.',
+  ],
+  ai: [
+    'Все хотят «внедрить ИИ», но не знают, с чего начать, и боятся получить дорогую игрушку без результата.',
+    'LLM используются как чат-бот-затычка, а не как реальный инструмент – аналитика конкурентов, автоотчётность, ускорение рутины остаются нетронутыми.',
+    'Нет человека, который доведёт AI-инструмент до продакшена – не просто демо, а то, что реально работает каждый день.',
+  ],
+};
+
+function updatePainPoints(role) {
+  const list = document.getElementById('painPointsList');
+  if (!list) return;
+  const items = PAIN_POINTS[role];
+  list.innerHTML = items
+    ? items.map(t => `<li>${escapeHTML(t)}</li>`).join('')
+    : `<li class="pain-points__placeholder">${escapeHTML(PAIN_POINTS_DEFAULT)}</li>`;
+}
+
 /* ─── Edge data ─── */
 const EDGES = [
   { from: 'trigger', to: 'c1', cat: 'teal',   roles: ['n8n'] },
@@ -206,6 +236,17 @@ function initGraph() {
     cue.className = 'gcue gcue--up';
     cue.innerHTML = `<span class="gcue__label">Нажимай</span><span class="gcue__arrow">↑</span>`;
     triggerCol.appendChild(cue);
+
+    /* Lives inside the trigger column's own flex stack – its height
+       never competes with the case-node columns in the shared grid
+       row, only with the trigger card (+ the cue above it). */
+    const painPoints = document.createElement('div');
+    painPoints.className = 'pain-points';
+    painPoints.innerHTML = `
+      <div class="pain-points__head">Какие боли я решаю</div>
+      <ul class="pain-points__list" id="painPointsList"></ul>`;
+    triggerCol.appendChild(painPoints);
+    updatePainPoints(currentRole);
   }
 
   /* Double rAF: first fires after paint, second after layout is stable */
@@ -423,6 +464,8 @@ function selectRole(role) {
 
   /* Redraw edges after CSS transition completes (--t-slow = 380ms) */
   setTimeout(drawAllEdges, 420);
+
+  updatePainPoints(role);
 }
 
 /* ─── Popup panel ─── */

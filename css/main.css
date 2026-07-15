@@ -616,6 +616,53 @@ section { position: relative; }
 .gnode--trigger .gnode__body { padding: 16px 18px 18px; }
 .gnode--trigger .gnode__port { top: 31px; transform: none; }
 
+/* ── "Какие боли я решаю" — same card language as the trigger, but
+   deliberately not node-shaped: no ports, no switch/trigger label.
+   Lives inside #gcol-trigger's own flex stack (see graph.js), so its
+   height only ever competes with the trigger card, never with the
+   case-node columns sharing the same grid row. */
+.pain-points {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
+  border-radius: 14px;
+  padding: 16px 18px 18px;
+}
+.pain-points__head {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  margin-bottom: 12px;
+}
+.pain-points__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pain-points__list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+.pain-points__list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--text-xs);
+}
+.pain-points__list li.pain-points__placeholder {
+  font-style: italic;
+  color: var(--text-xs);
+  padding-left: 0;
+}
+.pain-points__list li.pain-points__placeholder::before {
+  content: none;
+}
+
 .gnode__trigger-label {
   font-size: 9.5px;
   font-weight: 700;
