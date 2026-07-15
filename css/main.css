@@ -263,7 +263,7 @@ section { position: relative; }
   position: relative;
   width: 100%;
   background-image:
-    radial-gradient(circle, rgba(120,126,158,.9) 1.4px, transparent 1.4px);
+    radial-gradient(circle, rgba(120,126,158,.35) 1px, transparent 1px);
   background-size: 28px 28px;
   border-radius: 12px;
 }
@@ -934,15 +934,63 @@ section { position: relative; }
   border-bottom: 1px solid var(--border);
 }
 .gpopup__tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: inherit;
   font-size: 12.5px;
   font-weight: 600;
   color: var(--text-xs);
-  padding-bottom: 9px;
-  border-bottom: 2px solid transparent;
+  padding: 0 0 9px;
+  cursor: pointer;
+  transition: color var(--t-fast);
 }
-.gpopup__tab--active {
+.gpopup__tab:hover { color: var(--text-dim); }
+.gpopup__tab--active,
+.gpopup__tab--active:hover {
   color: var(--text);
   border-bottom-color: var(--accent);
+}
+
+/* SETTINGS tab: same visual language as Parameters – small uppercase
+   labels (matching .gpopup__panel-head), .tag chips reused as-is from
+   the case-detail sections below the graph. */
+.gpopup__tabpanel[hidden] { display: none; }
+
+.gpopup__settings-field { margin-bottom: 18px; }
+.gpopup__settings-field:last-child { margin-bottom: 0; }
+
+.gpopup__settings-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  margin-bottom: 8px;
+}
+
+.gpopup__settings-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gpopup__settings-value {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.gpopup__settings-notes {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.gpopup__tabpanel[data-tabpanel="settings"] .gpopup__cta {
+  margin-top: 4px;
 }
 
 .gpopup__cat {

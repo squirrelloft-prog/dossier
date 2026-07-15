@@ -121,12 +121,31 @@
 
             <div class="gpopup__panel gpopup__panel--params">
               <div class="gpopup__tabs">
-                <span class="gpopup__tab gpopup__tab--active">Parameters</span>
-                <span class="gpopup__tab">Settings</span>
+                <button type="button" class="gpopup__tab gpopup__tab--active" data-tab="parameters">Parameters</button>
+                <button type="button" class="gpopup__tab" data-tab="settings">Settings</button>
               </div>
-              <span class="gpopup__cat" id="gPopupCat"></span>
-              <p class="gpopup__teaser" id="gPopupTeaser"></p>
-              <a class="gpopup__cta" id="gPopupCta" href="#">Полный кейс →</a>
+
+              <div class="gpopup__tabpanel" data-tabpanel="parameters">
+                <span class="gpopup__cat" id="gPopupCat"></span>
+                <p class="gpopup__teaser" id="gPopupTeaser"></p>
+                <a class="gpopup__cta" id="gPopupCta" href="#">Полный кейс →</a>
+              </div>
+
+              <div class="gpopup__tabpanel" data-tabpanel="settings" hidden>
+                <div class="gpopup__settings-field">
+                  <span class="gpopup__settings-label">Стек</span>
+                  <div class="gpopup__settings-tags" id="gPopupStack"></div>
+                </div>
+                <div class="gpopup__settings-field">
+                  <span class="gpopup__settings-label">Роль</span>
+                  <p class="gpopup__settings-value" id="gPopupRole"></p>
+                </div>
+                <div class="gpopup__settings-field" id="gPopupNotesField" hidden>
+                  <span class="gpopup__settings-label">Notes</span>
+                  <p class="gpopup__settings-notes" id="gPopupNotes"></p>
+                </div>
+                <a class="gpopup__cta" id="gPopupCtaSettings" href="#">Полный кейс →</a>
+              </div>
             </div>
 
             <div class="gpopup__panel gpopup__panel--output">

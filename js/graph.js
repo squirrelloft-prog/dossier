@@ -28,6 +28,8 @@ const NODES = [
     teaser: 'Единолично разрабатывала вебинарные воронки и игровые Telegram-квесты – механики вызвали интерес в профессиональном сообществе, вплоть до попыток копирования.',
     stats: '~20 ботов · 5 вебинаров · 6 мес',
     anchor: 'case-1',
+    settingsStack: ['Salebot', 'Telegram Bot API'],
+    settingsRole: 'Соло-разработчик, 6 мес.',
   },
   {
     id: 'c2', type: 'case', cat: 'teal', roles: ['n8n', 'pm'],
@@ -37,6 +39,8 @@ const NODES = [
     teaser: 'Руководила технической стороной агентства чат-ботов на Salebot, регулярно выходя за рамки конструктора – кастомные интеграции через API и n8n.',
     stats: '~150 ботов · ~50 клиентов · 8 мес',
     anchor: 'case-2',
+    settingsStack: ['Salebot', 'n8n', 'amoCRM', 'Bitrix24', 'ChatGPT API', 'Telegram Personal API'],
+    settingsRole: 'Техлид, 8 мес.',
   },
   {
     id: 'c3', type: 'case', cat: 'teal', roles: ['n8n'],
@@ -46,6 +50,8 @@ const NODES = [
     teaser: 'Настроила сквозную аналитику рекламных кампаний для ~10 подрядчиков – ручной сбор данных полностью заменён автоматикой на n8n.',
     stats: '~10 подрядчиков · 4 воронки · 3 мес',
     anchor: 'case-3',
+    settingsStack: ['n8n', 'amoCRM', 'Bitrix24', 'Tilda'],
+    settingsRole: 'Аналитик-автоматизатор, 3 мес.',
   },
   {
     id: 'c4', type: 'case', cat: 'teal', roles: ['n8n', 'pm', 'ai'],
@@ -56,6 +62,9 @@ const NODES = [
     teaser: 'Техдир автоматизации промышленного производства контента: сбор статистики, AI-разведка, уникализация видео и телефонная ферма – под одной инфраструктурой.',
     stats: '90 аккаунтов · 1890 роликов/день · 10× ускорение',
     anchor: 'case-4',
+    settingsStack: ['n8n', 'Apify', 'PostgreSQL', 'Apache Superset', 'ffmpeg', 'S3', 'Gemini/Claude API', 'Python'],
+    settingsRole: 'Техлид, 8 мес.',
+    settingsNotes: '«90 аккаунтов одновременно – это было больше похоже на укрощение пожара, чем на разработку. Сейчас бы начала с архитектуры, а не с «push и смотрим что сломается».»',
   },
   {
     id: 'c5', type: 'case', cat: 'teal', roles: ['n8n', 'pm'],
@@ -65,6 +74,8 @@ const NODES = [
     teaser: '7+ лет технической инфраструктуры онлайн-школы: автоворонки, вебинары и аналитика под большими пиковыми нагрузками и растущей базой клиентов.',
     stats: '39 000+ регистраций · 16 500 зрителей разом · 800+ тыс. клиентов',
     anchor: 'case-5',
+    settingsStack: ['Salebot', 'Tilda', 'Bitrix24', 'Bizon365', 'GetCourse'],
+    settingsRole: 'Технический специалист + доп. роли (финменеджер, менеджер по продажам, куратор курсов), 7+ лет.',
   },
 
   /* coral column */
@@ -76,6 +87,8 @@ const NODES = [
     teaser: 'Лендинг B2B SaaS с нуля до продакшена – плюс lead-инфраструктура: форма и онлайн-чат подключены к CRM, разработка в связке с AI-инструментами.',
     stats: 'Lighthouse 63→~85 · 3 брейкпоинта',
     anchor: 'case-6',
+    settingsStack: ['Figma → продакшен', 'CRM-интеграция форм и чата', 'self-hosted PaaS на Docker'],
+    settingsRole: 'Фулстек-исполнитель, фриланс, NDA.',
   },
   {
     id: 'c7', type: 'case', cat: 'coral', roles: ['n8n'],
@@ -85,6 +98,8 @@ const NODES = [
     teaser: 'Нашла и устранила «тихие» баги в двусторонней синхронизации между CRM – без единой явной ошибки в логах.',
     stats: 'n8n · amoCRM · Bitrix24 · Directus',
     anchor: 'case-7',
+    settingsStack: ['n8n', 'amoCRM', 'Bitrix24', 'PostgreSQL', 'Directus'],
+    settingsRole: 'Диагност-интегратор, фриланс, NDA.',
   },
   {
     id: 'c8', type: 'case', cat: 'coral', roles: ['pm', 'ai'],
@@ -94,6 +109,9 @@ const NODES = [
     teaser: 'Серия инженерных задач для корпоративного трекера: от root-cause диагностики без единой записи в логах до восстановления потерянных данных.',
     stats: '5 кейсов · ~350 задач в миграции · 0 потерь данных',
     anchor: 'case-8',
+    settingsStack: ['CMS', 'трекер задач', 'платформа автоматизации', 'Groovy', 'ScriptRunner'],
+    settingsRole: 'Инженер-диагност, фриланс, NDA, 5 кейсов.',
+    settingsNotes: '«350 задач без единого лога – это не диагностика, а археология. Самое ценное, что вынесла: чинить систему вслепую учит гораздо большему, чем чинить её с документацией под рукой.»',
   },
   {
     id: 'c10', type: 'case', cat: 'coral', roles: ['n8n', 'ai'],
@@ -103,6 +121,8 @@ const NODES = [
     teaser: 'Аналитическая система учёта воронки продаж на Apache Superset – заменила ручные таблицы оперативной аналитикой по конверсии.',
     stats: 'PostgreSQL · KPI-дашборд · план/факт',
     anchor: 'case-10',
+    settingsStack: ['PostgreSQL', 'Apache Superset', 'веб-форма для ввода данных'],
+    settingsRole: 'Соло-разработчик, фриланс.',
   },
   {
     id: 'c9', type: 'case', cat: 'purple', roles: ['n8n', 'ai'],
@@ -114,6 +134,8 @@ const NODES = [
     teaser: 'Личная система автопоиска работы: парсинг email-дайджестов HH.ru через Gmail и мониторинг Telegram-каналов с уведомлениями по приоритетным вакансиям.',
     stats: 'n8n · Gmail · Google Sheets · Telegram',
     anchor: 'case-9',
+    settingsStack: ['n8n', 'Gmail API', 'Google Sheets', 'Telegram-парсинг'],
+    settingsRole: 'Соло, личный проект.',
   },
   {
     id: 'c11', type: 'case', cat: 'purple', roles: ['ai', 'n8n'],
@@ -123,6 +145,9 @@ const NODES = [
     teaser: 'Сам этот сайт – рабочий пример: граф-канвас на чистом JS, ролевые ссылки под три резюме и AI-чат, который отвечает на вопросы о моём опыте.',
     stats: 'Vanilla JS · 3 ролевые ссылки · n8n + Claude Haiku',
     anchor: 'case-11',
+    settingsStack: ['JS без фреймворков', 'n8n', 'Claude Haiku API', 'Docker', 'Traefik'],
+    settingsRole: 'Соло, личный проект.',
+    settingsNotes: '«Два Traefik, которые физически не видят друг друга – отличная метафора для любой инфраструктуры, которую поднимала не ты с нуля. Теперь сначала рисую схему сети, потом уже деплою.»',
   },
 
   /* service column */
@@ -410,8 +435,20 @@ function initPopup() {
     if (e.target === overlay) closePopup();
   });
   document.getElementById('gPopupCta').addEventListener('click', closePopup);
+  document.getElementById('gPopupCtaSettings').addEventListener('click', closePopup);
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closePopup();
+  });
+
+  /* Parameters ⇄ Settings – real tab switching, not decorative. */
+  document.querySelectorAll('.gpopup__tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.gpopup__tab').forEach(t =>
+        t.classList.toggle('gpopup__tab--active', t === tab));
+      document.querySelectorAll('.gpopup__tabpanel').forEach(p =>
+        p.hidden = p.dataset.tabpanel !== target);
+    });
   });
 }
 
@@ -429,6 +466,7 @@ function openPopup(id, nodeEl) {
   document.getElementById('gPopupTitle').textContent = n.title;
   document.getElementById('gPopupTeaser').textContent = n.teaser || '';
   document.getElementById('gPopupCta').href = `#${n.anchor}`;
+  document.getElementById('gPopupCtaSettings').href = `#${n.anchor}`;
   document.getElementById('gPopupMeta').textContent  = n.meta || '';
 
   const roles = n.roles || [];
@@ -445,6 +483,27 @@ function openPopup(id, nodeEl) {
         `  <span class="gj-str">"${escapeHTML(s)}"</span>${i < statItems.length - 1 ? ',' : ''}`
       ).join('\n') + '\n]'
     : '[]';
+
+  /* SETTINGS tab content: stack chips (.tag, reused from the case-detail
+     sections) + role/duration line + optional Notes – only rendered
+     when the case actually has one, no "no notes" placeholder. */
+  document.getElementById('gPopupStack').innerHTML = (n.settingsStack || [])
+    .map(t => `<span class="tag">${escapeHTML(t)}</span>`).join('');
+  document.getElementById('gPopupRole').textContent = n.settingsRole || '';
+  const notesField = document.getElementById('gPopupNotesField');
+  if (n.settingsNotes) {
+    document.getElementById('gPopupNotes').textContent = n.settingsNotes;
+    notesField.hidden = false;
+  } else {
+    notesField.hidden = true;
+  }
+
+  /* Always reopen on Parameters, even if this popup was left on Settings
+     for a previous case. */
+  document.querySelectorAll('.gpopup__tab').forEach(t =>
+    t.classList.toggle('gpopup__tab--active', t.dataset.tab === 'parameters'));
+  document.querySelectorAll('.gpopup__tabpanel').forEach(p =>
+    p.hidden = p.dataset.tabpanel !== 'parameters');
 
   /* Anchor the "fly out" animation to the node that was clicked: the
      panel starts scaled-down at the node's position and grows into
