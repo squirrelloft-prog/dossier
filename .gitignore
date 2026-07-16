@@ -1,0 +1,17 @@
+# Internal planning docs — contain real infra details (IP/ports/panel URL)
+# and real (pre-anonymization) client/employer names. Keep locally, never
+# publish alongside the public site.
+BRIEF.md
+images/prompt-*.md
+images/settings-tab-texts.md
+
+# One-off reference/debug files that aren't site assets
+images/chat-widget-snippet.html
+images/chat-widget-snippet (1).html
+images/amo.jpg
+images/b24.png
+images/photo_2026-07-14_*.jpg
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
