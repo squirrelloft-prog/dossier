@@ -24,6 +24,9 @@
   --c-purple-glow: rgba(107, 75, 178, 0.20);
   --c-gray:        #3D4558;
   --c-gray-dim:    rgba(61, 69, 88, 0.20);
+  --c-amber:       #C0891E;
+  --c-amber-dim:   rgba(192, 137, 30, 0.14);
+  --c-amber-glow:  rgba(212, 160, 48, 0.38);
 
   --s-green:      #1A7A50;
   --s-green-fg:   #38C870;

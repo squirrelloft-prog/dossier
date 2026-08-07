@@ -9,7 +9,7 @@ const ROLE_LABELS = {
 const COL = {
   trigger:  'gcol-trigger',
   c1: 'gcol-a', c2: 'gcol-a', c3: 'gcol-a', c4: 'gcol-a', c5: 'gcol-a',
-  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b', c11: 'gcol-b',
+  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b', c11: 'gcol-b', c12: 'gcol-b',
   skills: 'gcol-service', about: 'gcol-service', contacts: 'gcol-service',
 };
 
@@ -149,6 +149,19 @@ const NODES = [
     settingsRole: 'Соло, личный проект.',
     settingsNotes: '«Два Traefik, которые физически не видят друг друга – отличная метафора для любой инфраструктуры, которую поднимала не ты с нуля. Теперь сначала рисую схему сети, потом уже деплою.»',
   },
+  {
+    id: 'c12', type: 'case', cat: 'amber', roles: ['pm', 'ai'],
+    cat_label: 'Соревнование · 1 место',
+    title: 'Архитектурная ката',
+    meta: 'Т-Образование · 11 команд · 1 место (Новички)',
+    award: '🏆 1 место',
+    teaser: 'Командное соревнование по архитектурному мышлению: за два дня спроектировали и защитили перед жюри архитектуру платформы доставки еды T-Delivery промышленного масштаба – 1,5 млн заказов/день, 25 млн пользователей. 1-е место в номинации «Новички».',
+    stats: '1 место · 11 команд · 1,5 млн заказов/день · 25 млн юзеров · C4 · Strangler Fig',
+    anchor: 'case-12',
+    settingsStack: ['C4 (Context/Container/Component)', 'ADR', 'модульный монолит + микросервисы', 'Strangler Fig', 'мультиоблако', 'unit-экономика'],
+    settingsRole: 'Блок «Гибкость бизнеса» и экономика проекта: масштабирование на новые страны, переиспользование компонентов, окупаемость. Готовила и защищала перед жюри.',
+    settingsNotes: '«Самое ценное – не нарисовать красивую схему, а обосновать каждое решение через стоимость, скорость и надёжность и удержать его под живыми инцидентами за 15 минут.»',
+  },
 
   /* service column */
   {
@@ -211,6 +224,7 @@ const EDGES = [
   { from: 'trigger', to: 'c10', cat: 'coral',  roles: ['n8n', 'ai'] },
   { from: 'trigger', to: 'c9',  cat: 'purple', roles: ['n8n', 'ai'], always: true },
   { from: 'trigger', to: 'c11', cat: 'purple', roles: ['ai', 'n8n'] },
+  { from: 'trigger', to: 'c12', cat: 'amber',  roles: ['pm', 'ai'] },
   { from: 'trigger', to: 'skills',   cat: 'gray', roles: [] },
   { from: 'trigger', to: 'about',    cat: 'gray', roles: [] },
   { from: 'trigger', to: 'contacts', cat: 'gray', roles: [] },
@@ -416,6 +430,9 @@ function caseHTML(n) {
   const flagshipBadge = n.flagship
     ? `<span class="gnode__flagship">флагман</span>` : '';
 
+  const awardBadge = n.award
+    ? `<span class="gnode__award">${escapeHTML(n.award)}</span>` : '';
+
   const counter = n.counter ? `
     <div class="gnode__mini-counter">
       <span class="gnode__mini-counter-dot"></span>
@@ -430,7 +447,7 @@ function caseHTML(n) {
     </div>
     <div class="gnode__label">
       <span class="gnode__cat">${n.cat_label}</span>
-      <div class="gnode__title">${n.title}${flagshipBadge}</div>
+      <div class="gnode__title">${n.title}${flagshipBadge}${awardBadge}</div>
       ${counter}
     </div>`;
 }

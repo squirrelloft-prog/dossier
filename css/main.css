@@ -416,6 +416,7 @@ section { position: relative; }
 .gedge[data-cat="teal"].is-active   { stroke: var(--c-teal);   }
 .gedge[data-cat="coral"].is-active  { stroke: var(--c-coral);  }
 .gedge[data-cat="purple"].is-active { stroke: var(--c-purple); }
+.gedge[data-cat="amber"].is-active  { stroke: var(--c-amber);  }
 .gedge[data-cat="gray"]             { opacity: .16; }
 .gedge[data-cat="gray"].is-active   { stroke: var(--c-gray); opacity: .35; }
 
@@ -461,12 +462,14 @@ section { position: relative; }
 .gnode[data-cat="teal"]:hover   .gnode__tile { border-color: var(--c-teal);   box-shadow: 0 0 0 1.5px var(--c-teal),   0 8px 22px var(--c-teal-glow);   }
 .gnode[data-cat="coral"]:hover  .gnode__tile { border-color: var(--c-coral);  box-shadow: 0 0 0 1.5px var(--c-coral),  0 8px 22px var(--c-coral-glow);  }
 .gnode[data-cat="purple"]:hover .gnode__tile { border-color: var(--c-purple); box-shadow: 0 0 0 1.5px var(--c-purple), 0 8px 22px var(--c-purple-glow); }
+.gnode[data-cat="amber"]:hover  .gnode__tile { border-color: var(--c-amber);  box-shadow: 0 0 0 1.5px var(--c-amber),  0 8px 22px var(--c-amber-glow);  }
 .gnode[data-cat="gray"]:hover   .gnode__tile { border-color: var(--border-light); }
 
 /* ── Role relevance: active glow / dimmed grayscale (case nodes only) ── */
 .gnode--case.is-active[data-cat="teal"]   .gnode__tile { border-color: var(--c-teal);   box-shadow: 0 0 0 1.5px var(--c-teal),   0 0 18px var(--c-teal-glow);   }
 .gnode--case.is-active[data-cat="coral"]  .gnode__tile { border-color: var(--c-coral);  box-shadow: 0 0 0 1.5px var(--c-coral),  0 0 18px var(--c-coral-glow);  }
 .gnode--case.is-active[data-cat="purple"] .gnode__tile { border-color: var(--c-purple); box-shadow: 0 0 0 1.5px var(--c-purple), 0 0 18px var(--c-purple-glow); }
+.gnode--case.is-active[data-cat="amber"]  .gnode__tile { border-color: var(--c-amber);  box-shadow: 0 0 0 1.5px var(--c-amber),  0 0 18px var(--c-amber-glow);  }
 
 .gnode--case.is-dimmed {
   opacity: .40;
@@ -492,6 +495,7 @@ section { position: relative; }
 .gnode[data-cat="teal"]   .gnode__icon { background: var(--c-teal);   box-shadow: 0 0 14px -2px var(--c-teal-glow);   }
 .gnode[data-cat="coral"]  .gnode__icon { background: var(--c-coral);  box-shadow: 0 0 14px -2px var(--c-coral-glow);  }
 .gnode[data-cat="purple"] .gnode__icon { background: var(--c-purple); box-shadow: 0 0 14px -2px var(--c-purple-glow); }
+.gnode[data-cat="amber"]  .gnode__icon { background: var(--c-amber);  box-shadow: 0 0 14px -2px var(--c-amber-glow);  }
 
 /* case-node hover cue: small arrow appears top-right of the tile */
 .gnode--case::after {
@@ -535,6 +539,7 @@ section { position: relative; }
 .gnode[data-cat="teal"]   .gnode__cat { color: var(--c-teal);   }
 .gnode[data-cat="coral"]  .gnode__cat { color: var(--c-coral);  }
 .gnode[data-cat="purple"] .gnode__cat { color: var(--c-purple); }
+.gnode[data-cat="amber"]  .gnode__cat { color: var(--c-amber);  }
 /* gray = service nodes: c-gray is a dark border tone, unreadable as text — use a bright neutral instead */
 .gnode[data-cat="gray"]   .gnode__cat { color: var(--text-xs); }
 
@@ -786,6 +791,36 @@ section { position: relative; }
   .gnode__flagship::after { animation: none; display: none; }
 }
 
+/* ── Award badge (1st place) — gold variant of the flagship badge ── */
+.gnode__award {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--c-amber-dim);
+  color: var(--s-amber-fg);
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.gnode__award::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.65), transparent);
+  transform: translateX(-150%);
+  animation: flagship-shimmer 3.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gnode__award::after { animation: none; display: none; }
+}
+
 /* ─────────────────────────────────────────────
    Case popup — overlay panel over the graph
    (backdrop dims the graph but keeps it visible;
@@ -838,6 +873,7 @@ section { position: relative; }
 .gpopup[data-cat="teal"]   { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-teal),   0 0 50px -6px var(--c-teal-glow);   }
 .gpopup[data-cat="coral"]  { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-coral),  0 0 50px -6px var(--c-coral-glow);  }
 .gpopup[data-cat="purple"] { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-purple), 0 0 50px -6px var(--c-purple-glow); }
+.gpopup[data-cat="amber"]  { box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 0 1px var(--c-amber),  0 0 50px -6px var(--c-amber-glow);  }
 
 /* decorative drag/resize handle — the small n8n signature detail at the
    very top edge of an open node panel. Purely cosmetic. */
@@ -880,6 +916,7 @@ section { position: relative; }
 .gpopup[data-cat="teal"]   .gpopup__icon-tile { background: var(--c-teal);   box-shadow: 0 0 14px -2px var(--c-teal-glow);   }
 .gpopup[data-cat="coral"]  .gpopup__icon-tile { background: var(--c-coral);  box-shadow: 0 0 14px -2px var(--c-coral-glow);  }
 .gpopup[data-cat="purple"] .gpopup__icon-tile { background: var(--c-purple); box-shadow: 0 0 14px -2px var(--c-purple-glow); }
+.gpopup[data-cat="amber"]  .gpopup__icon-tile { background: var(--c-amber);  box-shadow: 0 0 14px -2px var(--c-amber-glow);  }
 
 .gpopup__icon {
   font-size: 15px;
@@ -1052,6 +1089,7 @@ section { position: relative; }
 .gpopup[data-cat="teal"]   .gpopup__cat { color: var(--c-teal);   }
 .gpopup[data-cat="coral"]  .gpopup__cat { color: var(--c-coral);  }
 .gpopup[data-cat="purple"] .gpopup__cat { color: var(--c-purple); }
+.gpopup[data-cat="amber"]  .gpopup__cat { color: var(--c-amber);  }
 
 .gpopup__teaser {
   font-size: 14px;
@@ -1151,6 +1189,7 @@ section { position: relative; }
 .cat-dot--teal   { background: var(--c-teal);   }
 .cat-dot--coral  { background: var(--c-coral);  }
 .cat-dot--purple { background: var(--c-purple); }
+.cat-dot--amber  { background: var(--c-amber);  }
 
 .case-section__cat-label {
   font-size: 10px;
