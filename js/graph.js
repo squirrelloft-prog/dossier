@@ -9,7 +9,7 @@ const ROLE_LABELS = {
 const COL = {
   trigger:  'gcol-trigger',
   c1: 'gcol-a', c2: 'gcol-a', c3: 'gcol-a', c4: 'gcol-a', c5: 'gcol-a',
-  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b', c11: 'gcol-b', c12: 'gcol-b',
+  c6: 'gcol-b', c7: 'gcol-b', c8: 'gcol-b', c10: 'gcol-b', c9: 'gcol-b', c11: 'gcol-b', c12: 'gcol-b', c13: 'gcol-b',
   skills: 'gcol-service', about: 'gcol-service', contacts: 'gcol-service',
 };
 
@@ -162,6 +162,17 @@ const NODES = [
     settingsRole: 'Блок «Гибкость бизнеса» и экономика проекта: масштабирование на новые страны, переиспользование компонентов, окупаемость. Готовила и защищала перед жюри.',
     settingsNotes: '«Самое ценное – не нарисовать красивую схему, а обосновать каждое решение через стоимость, скорость и надёжность и удержать его под живыми инцидентами за 15 минут.»',
   },
+  {
+    id: 'c13', type: 'case', cat: 'purple', roles: ['ai', 'n8n', 'pm'],
+    cat_label: 'Pet-проект',
+    title: 'TeamRole AI – HR-бот',
+    meta: 'Личный проект · 2026 · MAX + n8n + Claude + OpenRouter',
+    teaser: 'Бот в MAX определяет архетип пользователя в команде за 6 вопросов и пару минут диалога – вместо долгого теста или консультации.',
+    stats: 'MAX · 6 вопросов · 4 архетипа · Claude + Qwen Image',
+    anchor: 'case-13',
+    settingsStack: ['Python', 'n8n', 'PostgreSQL', 'OpenRouter', 'Docker', 'Apache Superset'],
+    settingsRole: 'Соло, личный проект.',
+  },
 
   /* service column */
   {
@@ -225,6 +236,7 @@ const EDGES = [
   { from: 'trigger', to: 'c9',  cat: 'purple', roles: ['n8n', 'ai'], always: true },
   { from: 'trigger', to: 'c11', cat: 'purple', roles: ['ai', 'n8n'] },
   { from: 'trigger', to: 'c12', cat: 'amber',  roles: ['pm', 'ai'] },
+  { from: 'trigger', to: 'c13', cat: 'purple', roles: ['ai', 'n8n', 'pm'] },
   { from: 'trigger', to: 'skills',   cat: 'gray', roles: [] },
   { from: 'trigger', to: 'about',    cat: 'gray', roles: [] },
   { from: 'trigger', to: 'contacts', cat: 'gray', roles: [] },
